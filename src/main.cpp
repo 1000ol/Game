@@ -15,9 +15,8 @@
 int main(int argc, char* argv[]) {
 
 	// Paths to resources
-	std::string imagePath = "../../images/";
-	std::string fontPath = "../../fonts/";
-	std::string soundPath = "../../sounds/";
+	std::string resPath = "../../resources/";
+
 
 	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) 
 	{
@@ -34,7 +33,7 @@ int main(int argc, char* argv[]) {
 	SDL_Window* window 		= SDL_CreateWindow("Window", 100, 100, 800, 600, 0);
 	SDL_Renderer* renderer 	= SDL_CreateRenderer(window, -1, 0);
 
-	SDL_Surface* bg_sur = IMG_Load( (imagePath + "bg.jpg").c_str() );
+	SDL_Surface* bg_sur = IMG_Load( (resPath + "images/bg.jpg").c_str() );
 
 	SDL_Texture* bg_tex = SDL_CreateTextureFromSurface(renderer, bg_sur);
 	SDL_FreeSurface(bg_sur);
