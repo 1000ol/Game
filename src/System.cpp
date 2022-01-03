@@ -18,7 +18,7 @@ namespace cwing {
     font = TTF_OpenFont((resPath + "fonts/arial.ttf").c_str(), 36);
     // Initerar ljud
     Mix_OpenAudio(20050, AUDIO_S16SYS, 2, 4096);
-    musik = Mix_LoadWav((resPath + "sounds/bgMusic.wav").c_str());
+    musik = Mix_LoadWAV((resPath + "sounds/bgMusic.wav").c_str());
     Mix_PlayChannel(-1, musik, -1);
     }
 

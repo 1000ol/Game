@@ -18,9 +18,14 @@ namespace cwing {
     // Destruktor
     ~System();
     // Statisk metod för att hämta renderare
-    SDL_Renderer* getRen() const;
+    SDL_Renderer* getRen() const {
+        return ren;
+    }
     // Statisk metod för att hämta font
-    TTF_Font* getFont() const;
+    TTF_Font* getFont() const {
+        return font;
+    }
+    
     private:
     SDL_Window* win;
     SDL_Renderer* ren;
@@ -28,8 +33,8 @@ namespace cwing {
     Mix_Chunk* musik;
 
     };
-
-extern System sys;
+    // Deklareras som extern så att den kan nås av klasser som inkluderar headerfilen
+    extern System sys;
 }
 
 extern std::string resPath;

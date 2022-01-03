@@ -1,6 +1,6 @@
 # mac, sdl2 genom homebrew, gcc genom homebrew
 SRC_DIR = src
-BUILD_DIR = build/debug
+BUILD_DIR = build/debug/Contents/Resources/DWARF
 CC = g++
 SRC_FILES = $(wildcard $(SRC_DIR)/*.cpp)
 OBJ_NAME = play

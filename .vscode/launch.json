@@ -4,12 +4,13 @@
     // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
     "version": "0.2.0",
     "configurations": [
-    
+
         {
             "name": "Debug",
             "type": "cppdbg",
             "request": "launch",
-            "program": "${workspaceFolder}/build/debug/play",
+            //"targetArchitecture": "x86_64",
+            "program": "${workspaceFolder}/build/debug/play.dSYM/Contents/Resources/DWARF/play",
             "args": [],
             "stopAtEntry": false,
             "cwd": "${workspaceFolder}",
@@ -17,6 +18,7 @@
             "externalConsole": false,
             "MIMode": "lldb",
             "preLaunchTask": "build"
+            
         }
     ]
 }
