@@ -21,57 +21,48 @@ using namespace cwing;
 // Paths to resources
 std::string resPath = "../../resources/";
 
-int main(int argc, char *argv[])
+int value = 0;
+
+class OkaKnapp : public Button
 {
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
+public:
+	OkaKnapp(Label *lbl) : Button(100, 100, 150, 70, "Oka"), label(lbl) {}
+	void perform(Button *source)
 	{
-		std::cout << "Error SDL2 Initialization : " << SDL_GetError();
-		return EXIT_FAILURE;
+		value++;
+		label->setText(to_string(value));
 	}
 
-	if (TTF_Init() < 0)
+private:
+	Label *label;
+};
+
+class MinskaKnapp : public Button
+{
+public:
+	MinskaKnapp(Label *lbl) : Button(400, 100, 150, 70, "Minska"), label(lbl) {}
+	void perform(Button *source)
 	{
-		std::cout << "Error SDL_ttf Initialization : " << SDL_GetError();
-		return EXIT_FAILURE;
+		value--;
+		label->setText(to_string(value));
 	}
 
-	SDL_Window *window = SDL_CreateWindow("Window", 100, 100, 800, 600, 0);
-	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
+private:
+	Label *label;
+};
 
-	SDL_Surface *bg_sur = IMG_Load((resPath + "images/bg.jpg").c_str());
+int main(int argc, char **argv)
+{
+	Session ses;
+	Label *lbl = Label::getInstance(270, 100, 100, 70, "0");
+	ses.add(lbl);
 
-	SDL_Texture *bg_tex = SDL_CreateTextureFromSurface(renderer, bg_sur);
-	SDL_FreeSurface(bg_sur);
+	Button *b = new OkaKnapp(lbl);
+	ses.add(b);
+	Button *b2 = new MinskaKnapp(lbl);
+	ses.add(b2);
 
-	std::cout << "Avsluta programmet genom \"quit\" från fönstrets meny eller genom att stänga fönstret!" << std::endl;
+	ses.run();
 
-	// Loop till dess att programmet avslutas!
-	bool running = true;
-	while (running)
-	{
-		SDL_Event e;
-		if (SDL_PollEvent(&e))
-		{
-			if (e.type == SDL_QUIT)
-			{
-				running = false;
-			}
-		}
-
-		SDL_RenderClear(renderer);
-		SDL_RenderCopy(renderer, bg_tex, NULL, NULL);
-		SDL_RenderPresent(renderer);
-	}
-
-	// Städa innan programmet avslutas!
-
-	SDL_DestroyTexture(bg_tex);
-	SDL_DestroyRenderer(renderer);
-	SDL_DestroyWindow(window);
-
-	TTF_Quit();
-	SDL_Quit();
-
-	return EXIT_SUCCESS;
+	return 0;
 }

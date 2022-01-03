@@ -19,10 +19,11 @@ namespace cwing
     virtual void keyDown(const SDL_Event &) {}
 
     // uppdaterar objektets tillstånd
-    virtual void tick() = 0;
+    // virtual void tick() {}
 
     // ritar ut objektet
     // funktioner som är const för att de inte ändrar objekten.
+    // abstrakt funktion som måste definieras av subklasserna
     virtual void draw() const = 0;
 
     const SDL_Rect &getRect() const

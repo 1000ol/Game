@@ -20,21 +20,16 @@ namespace cwing
         // Destruktor
         ~System();
         // Statisk metod för att hämta renderare
-        SDL_Renderer *getRen() const
-        {
-            return ren;
-        }
+        SDL_Renderer *getRen() const;
+
         // Statisk metod för att hämta font
-        TTF_Font *getFont() const
-        {
-            return font;
-        }
+        TTF_Font *getFont() const;
 
     private:
         SDL_Window *win;
         SDL_Renderer *ren;
         TTF_Font *font;
-        Mix_Chunk *musik;
+        // Mix_Chunk *musik;
     };
     // Deklareras som extern så att den kan nås av klasser som inkluderar headerfilen
     extern System sys;

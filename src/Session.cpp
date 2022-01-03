@@ -59,8 +59,8 @@ namespace cwing
 			}		// Inre while
 
 			// Uppdaterar samtliga objekt
-			for (Component *comp : components)
-				comp->tick();
+			//	for (Component *comp : components)
+			// comp->tick();
 
 			// Kollisionskontroll för objekt
 			for (Component *comp : components)
@@ -103,6 +103,7 @@ namespace cwing
 			SDL_RenderClear(sys.getRen());
 			for (Component *comp : components)
 				comp->draw();
+			//	SDL_RenderCopy(sys.getRen(), sys.getTexture(), NULL, NULL);
 			SDL_RenderPresent(sys.getRen());
 
 			// Tid kontrolleras och fördröjning framkallas
