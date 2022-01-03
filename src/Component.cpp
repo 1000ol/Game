@@ -1,11 +1,13 @@
 #include "Component.h"
 
-namespace cwing {
+using namespace std;
 
-	Component::Component(int x, int y, int w, int h) :rect{ x,y,w,h }
+namespace cwing
+{
+
+	Component::Component(int x, int y, int w, int h) : rect{x, y, w, h}
 	{
 	}
-
 
 	Component::~Component()
 	{

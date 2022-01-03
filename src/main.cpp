@@ -1,24 +1,30 @@
 #include <iostream>
+#include "Label.h"
+#include "Session.h"
+#include "Button.h"
+#include "System.h"
 #include <string>
 
 // Alla dessa SDL inkluderingsfiler används inte i detta testprogram.
-// Bifogas endast för test av SDL installation! 
+// Bifogas endast för test av SDL installation!
 
-#include <SDL.h> 			//<SDL2/SDL.h>
-#include <SDL_image.h> 		//<SDL2_image/SDL_image.h>
-#include <SDL_mixer.h> 		//<SDL2_mixer/SDL_mixer.h>
-#include <SDL_ttf.h> 		//<SDL2_ttf/SDL_ttf.h>
+#include <SDL.h>			 //<SDL2/SDL.h>
+#include <SDL_image.h> //<SDL2_image/SDL_image.h>
+#include <SDL_mixer.h> //<SDL2_mixer/SDL_mixer.h>
+#include <SDL_ttf.h>	 //<SDL2_ttf/SDL_ttf.h>
 
 //#define FPS 60
 
+using namespace std;
+using namespace cwing;
 
-int main(int argc, char* argv[]) {
+// Paths to resources
+std::string resPath = "../../resources/";
 
-	// Paths to resources
-	std::string resPath = "../../resources/";
+int main(int argc, char *argv[])
+{
 
-
-	if (SDL_Init(SDL_INIT_EVERYTHING) < 0) 
+	if (SDL_Init(SDL_INIT_EVERYTHING) < 0)
 	{
 		std::cout << "Error SDL2 Initialization : " << SDL_GetError();
 		return EXIT_FAILURE;
@@ -29,23 +35,26 @@ int main(int argc, char* argv[]) {
 		std::cout << "Error SDL_ttf Initialization : " << SDL_GetError();
 		return EXIT_FAILURE;
 	}
-	
-	SDL_Window* window 		= SDL_CreateWindow("Window", 100, 100, 800, 600, 0);
-	SDL_Renderer* renderer 	= SDL_CreateRenderer(window, -1, 0);
 
-	SDL_Surface* bg_sur = IMG_Load( (resPath + "images/bg.jpg").c_str() );
+	SDL_Window *window = SDL_CreateWindow("Window", 100, 100, 800, 600, 0);
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
-	SDL_Texture* bg_tex = SDL_CreateTextureFromSurface(renderer, bg_sur);
+	SDL_Surface *bg_sur = IMG_Load((resPath + "images/bg.jpg").c_str());
+
+	SDL_Texture *bg_tex = SDL_CreateTextureFromSurface(renderer, bg_sur);
 	SDL_FreeSurface(bg_sur);
 
 	std::cout << "Avsluta programmet genom \"quit\" från fönstrets meny eller genom att stänga fönstret!" << std::endl;
 
 	// Loop till dess att programmet avslutas!
 	bool running = true;
-	while (running) {
+	while (running)
+	{
 		SDL_Event e;
-		if (SDL_PollEvent(&e)) {
-			if (e.type == SDL_QUIT) {
+		if (SDL_PollEvent(&e))
+		{
+			if (e.type == SDL_QUIT)
+			{
 				running = false;
 			}
 		}
@@ -63,6 +72,6 @@ int main(int argc, char* argv[]) {
 
 	TTF_Quit();
 	SDL_Quit();
-	
+
 	return EXIT_SUCCESS;
 }

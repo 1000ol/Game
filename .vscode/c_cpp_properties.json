@@ -3,13 +3,14 @@
         {
             "name": "Mac",
             "includePath": [
-                "${workspaceFolder}/**",
-                "/usr/local/include/SDL2"
+                "${workspaceFolder}/**"
             ],
+            "defines": [],
+            "macFrameworkPath": [],
             "compilerPath": "/usr/local/bin/gcc-11",
-            "intelliSenseMode": "macos-gcc-x64",
-            "cStandard": "c17",
-            "cppStandard": "c++17"
+            "cStandard": "gnu17",
+            "cppStandard": "gnu++17",
+            "intelliSenseMode": "macos-gcc-x64"
         }
     ],
     "version": 4
