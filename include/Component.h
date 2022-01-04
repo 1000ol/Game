@@ -2,30 +2,34 @@
 #define COMPONENT_H
 #include <SDL2/SDL.h>
 
-namespace cwing
+namespace game
 {
 
   class Component
   {
 
   public:
-    // destruktor
+    // Destruktor - virtual så att den kan överskuggas av subklasser
     virtual ~Component();
 
-    // funktioner som hanterar användargenererade händelser (input)
+    // Funktioner som hanterar användargenererade händelser (input)
     virtual void mouseDown(const SDL_Event &) {}
     virtual void mouseUp(const SDL_Event &) {}
     virtual void keyUp(const SDL_Event &) {}
     virtual void keyDown(const SDL_Event &) {}
 
-    // uppdaterar objektets tillstånd
-    // virtual void tick() {}
+    // Abstrakt funktion som måste definieras av subklasserna
+    // Uppdaterar objektets tillstånd
+    // virtual void tick() = 0;
 
-    // ritar ut objektet
-    // funktioner som är const för att de inte ändrar objekten.
-    // abstrakt funktion som måste definieras av subklasserna
+    // Abstrakt funktion som måste definieras av subklasserna
+    // Funktion som är const för att den inte ändrar objektet
+    // Ritar ut objektet
     virtual void draw() const = 0;
 
+    // Returnerar rektangelobjektets koordinater för övre vänsterhörn och höjd+bredd 
+    // Funktion som är const för att den inte ändrar objektet
+    // Returnerar const objekt som inte kan ändras
     const SDL_Rect &getRect() const
     {
       return rect;
@@ -38,7 +42,7 @@ namespace cwing
   private:
     SDL_Rect rect;
 
-    // Skyddar mot värdesemantik???
+    // Skyddar mot värdesemantik genom att ta bort funktionaliteten för copykonstruktor och tilldelningsoperator
     // Instantiering via värdesemantik "förbjuds"
     Component(const Component &) = delete;
     // Instantiering via tilldelningsoperator "förbjuds"

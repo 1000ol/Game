@@ -7,8 +7,7 @@
 #include <SDL2_ttf/SDL_ttf.h>
 #include <string>
 
-// Vad gör detta??
-namespace cwing
+namespace game
 {
 
     class System
@@ -20,10 +19,13 @@ namespace cwing
         // Destruktor
         ~System();
         // Statisk metod för att hämta renderare
-        SDL_Renderer *getRen() const;
-
+        SDL_Renderer *getRen() const {
+            return ren;
+        }
         // Statisk metod för att hämta font
-        TTF_Font *getFont() const;
+        TTF_Font *getFont() const {
+            return font;
+        }
 
     private:
         SDL_Window *win;

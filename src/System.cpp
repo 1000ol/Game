@@ -2,12 +2,12 @@
 
 using namespace std;
 
-namespace cwing
+namespace game
 {
     // Konstruktor
     System::System()
     {
-        // Initerar SDL-biblioteket??
+        // Initerar SDL-biblioteket
         SDL_Init(SDL_INIT_EVERYTHING);
         // Skapar ett fönster
         win = SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED,
@@ -15,9 +15,8 @@ namespace cwing
         // Skapar en renderare
         ren = SDL_CreateRenderer(win, -1, 0);
 
-        // Initerar TTF-biblioteket?
+        // Initerar Font
         TTF_Init();
-        // Initerar font
         font = TTF_OpenFont((resPath + "fonts/Arial.ttf").c_str(), 36);
         /*
           // Initerar ljud
@@ -27,12 +26,10 @@ namespace cwing
           */
     }
 
-    // Destruktor
+    // Destruktor - städar bort vid stängning av programmet
     System::~System()
     {
-
-        // Stänger ner ...
-        //  SDL_DestroyTexture(bg_tex);
+        // OBS!! I vilken ordning bör dessa ske?
         // Stänger ner fönster
         SDL_DestroyWindow(win);
         // Stänger ner renderare
@@ -46,15 +43,6 @@ namespace cwing
         SDL_Quit();
     }
 
-    SDL_Renderer *System::getRen() const
-    {
-        return ren;
-    }
-
-    TTF_Font *System::getFont() const
-    {
-        return font;
-    }
-
+    // OBS!! Behövs denna här? Varför?
     System sys;
 }

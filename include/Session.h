@@ -4,7 +4,7 @@
 #include "Component.h"
 #include <vector>
 
-namespace cwing {
+namespace game {
   
   class Session {
 
@@ -15,7 +15,9 @@ namespace cwing {
     // Destruktor
     ~Session();
   private:
+  // Samling av alla komponentobjekt
   std::vector<Component*> components;
+  // Samlingar av tillagda och radera objekt 
   std::vector<Component*> added, removed;
 
   };

@@ -4,9 +4,11 @@
 
 using namespace std;
 
+// Sätter värdet för framesPerSecond 
+// OBS!! Detta ska kunna anges??? 
 #define FPS 80
 
-namespace cwing
+namespace game
 {
 
 	void Session::add(Component *comp)
@@ -21,6 +23,7 @@ namespace cwing
 
 	void Session::run()
 	{
+		// Variabel för körningens tillstånd
 		bool quit = false;
 
 		// Bestämmer takten
@@ -46,7 +49,7 @@ namespace cwing
 					for (Component *comp : components)
 						comp->mouseUp(event);
 					break;
-				// Ska vi även ha musrörelser här?
+				// OBS!! Ska vi även ha musrörelser här?
 				case SDL_KEYDOWN:
 					for (Component *comp : components)
 						comp->keyDown(event);
@@ -58,9 +61,10 @@ namespace cwing
 				} // Switch
 			}		// Inre while
 
+			// OBS!! Uppdatera med tick sen
 			// Uppdaterar samtliga objekt
 			//	for (Component *comp : components)
-			// comp->tick();
+			// 	comp->tick();
 
 			// Kollisionskontroll för objekt
 			for (Component *comp : components)
@@ -103,7 +107,8 @@ namespace cwing
 			SDL_RenderClear(sys.getRen());
 			for (Component *comp : components)
 				comp->draw();
-			//	SDL_RenderCopy(sys.getRen(), sys.getTexture(), NULL, NULL);
+			// OBS!! Vad gör RenderCopy?? Behövs den? 	
+			// SDL_RenderCopy(sys.getRen(), sys.getTexture(), NULL, NULL);
 			SDL_RenderPresent(sys.getRen());
 
 			// Tid kontrolleras och fördröjning framkallas
