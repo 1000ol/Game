@@ -1,34 +1,28 @@
-#include <iostream>
 #include <string>
-#include <SDL.h>			 
-#include <SDL_image.h> 
-#include <SDL_mixer.h> 
-#include <SDL_ttf.h>
+#include <SDL2/SDL.h>
+
 #include "Label.h"
 #include "Session.h"
 #include "Button.h"
 #include "System.h"
 
-
-using namespace std;
 using namespace game;
 
 // Paths to resources
-std::string resPath = "../../resources/";
+extern const std::string resPath = "../../resources/";
 
 // OBS!! Ändra till eget content
-int value = 10;
+int value = 0;
 
 // OBS!! Ändra till eget content
-class OkaKnapp : public Button
+class PlayKnapp : public Button
 {
 public:
-	OkaKnapp(Label *lbl) : Button(100, 100, 150, 70, "Oka"), label(lbl) {}
+	PlayKnapp(Label *lbl) : Button(260, 50, 100, 100, lbl->getText()), label(lbl) {}
 	void perform(Button *source)
 	{
 		value++;
-		label->setText(to_string(value));
-		label->draw();
+		label->setText(std::to_string(value));
 	}
 
 private:
@@ -39,11 +33,11 @@ private:
 class MinskaKnapp : public Button
 {
 public:
-	MinskaKnapp(Label *lbl) : Button(400, 100, 150, 70, "Minska"), label(lbl) {}
+	MinskaKnapp(Label *lbl) : Button(260, 50, 150, 150, "Minska"), label(lbl) {}
 	void perform(Button *source)
 	{
 		value--;
-		label->setText(to_string(value));
+		label->setText(std::to_string(value));
 	}
 
 private:
@@ -54,15 +48,26 @@ int main(int argc, char **argv)
 {
 
 	// OBS!! Fönstret är 600 bredd 400 i höjd
-	Session ses;
+	Session *ses = sys.getSession();
 
-	Label *lbl = Label::getInstance(270, 20, 100, 70, "10");
-	ses.add(lbl);
-	//Button *b = new OkaKnapp(lbl);
-	//ses.add(b);
-//	Button *b2 = new MinskaKnapp(lbl);
-//	ses.add(b2);
-	ses.run();
+	// OBS!! Hur får vi bra width+height och koordinatvärden på objekten?
+	Label *titel = Label::getInstance(260, 10, 120, 70, "The Game");
+	Label *playLbl = Label::getInstance(260, 50, 50, 50, "Play");
+
+	Button *playButton = new PlayKnapp(playLbl);
+
+	ses->add(titel);
+	ses->add(playButton);
+
+	/*
+ses->add(lbl);
+Button *b = new OkaKnapp(lbl);
+ses->add(b);
+Button *b2 = new MinskaKnapp(lbl);
+ses->add(b2);
+*/
+
+	ses->run();
 
 	return 0;
 }

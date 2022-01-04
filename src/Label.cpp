@@ -1,6 +1,8 @@
 #include "Label.h"
-#include <SDL_ttf.h>
 #include "System.h"
+
+#include <SDL_ttf.h>
+#include <SDL2/SDL_surface.h>
 #include <iostream>
 #include <string>
 
@@ -9,7 +11,8 @@ using namespace std;
 namespace game
 {
 
-  Label* Label::getInstance(int x, int y, int w, int h, std::string txt) {
+  Label *Label::getInstance(int x, int y, int w, int h, std::string txt)
+  {
     return new Label(x, y, w, h, txt);
   }
 
@@ -18,7 +21,8 @@ namespace game
                std::string txt) : Component(x, y, w, h), text(txt)
   {
     // OBS!! Font funkar inte?? Varför kan vi inte hämta fonten med sys.getFont() här???
-    SDL_Surface *surf = TTF_RenderText_Solid(TTF_OpenFont((resPath + "fonts/Arial.ttf").c_str(), 36), text.c_str(), {0, 0, 0});
+
+    SDL_Surface *surf = TTF_RenderText_Solid(sys.getFont(), text.c_str(), {0, 0, 0});
     texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
     SDL_FreeSurface(surf);
   }
@@ -33,12 +37,12 @@ namespace game
     text = newText;
     SDL_DestroyTexture(texture);
     // OBS!! Font funkar inte??
-    SDL_Surface *surf = TTF_RenderText_Solid(TTF_OpenFont((resPath + "fonts/Arial.ttf").c_str(), 36),
+    SDL_Surface *surf = TTF_RenderText_Solid(sys.getFont(),
                                              text.c_str(), {0, 0, 0});
     texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
     SDL_FreeSurface(surf);
   }
-  
+
   // Destruktor
   Label::~Label()
   {

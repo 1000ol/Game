@@ -2,8 +2,8 @@
 #define BUTTON_H
 
 #include "Component.h"
-#include <SDL2/SDL.h>
 #include <string>
+#include <SDL2/SDL.h>
 
 namespace game
 {
@@ -14,9 +14,9 @@ namespace game
     static Button *getInstance(int x, int y, int w, int h, std::string txt);
     void mouseDown(const SDL_Event &);
     void mouseUp(const SDL_Event &);
-    void keyUp(const SDL_Event &);
-    void keyDown(const SDL_Event &);
-    
+    // void keyUp(const SDL_Event &);
+    // void keyDown(const SDL_Event &);
+
     // virtual void tick();
     void draw() const;
     // OBS!! När använder vi denna???
@@ -30,7 +30,7 @@ namespace game
 
   private:
     // OBS!! Privat eller protected konstruktor?
-    //Button(int x, int y, int w, int h, std::string txt);
+    // Button(int x, int y, int w, int h, std::string txt);
     std::string text;
 
     // OBS!! Byta ut mot vårt content
@@ -38,8 +38,7 @@ namespace game
     SDL_Texture *upIcon, *downIcon;
     bool isDown = false;
   };
-}
 
-extern std::string resPath;
+}
 
 #endif

@@ -1,25 +1,29 @@
 #ifndef SESSION_H
 #define SESSION_H
 
-#include "Component.h"
 #include <vector>
+#include "Component.h"
 
-namespace game {
-  
-  class Session {
+namespace game
+{
+
+  class Session
+  {
 
   public:
-    void add(Component*);
-    void remove(Component*);
+    // Default-konstruktor
+    Session();
+    void add(Component *);
+    void remove(Component *);
     void run();
     // Destruktor
     ~Session();
-  private:
-  // Samling av alla komponentobjekt
-  std::vector<Component*> components;
-  // Samlingar av tillagda och radera objekt 
-  std::vector<Component*> added, removed;
 
+  private:
+    // Samling av alla komponentobjekt
+    std::vector<Component *> components;
+    // Samlingar av tillagda och radera objekt
+    std::vector<Component *> added, removed;
   };
 }
 

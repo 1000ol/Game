@@ -1,23 +1,23 @@
-#ifndef COMPONENT_H
-#define COMPONENT_H
+#ifndef SPRITE_H
+#define SPRITE_H
 
 #include <SDL2/SDL.h>
 
 namespace game
 {
 
-  class Component
+  class Sprite
   {
 
   public:
     // Destruktor - virtual så att den kan överskuggas av subklasser
-    virtual ~Component();
+    virtual ~Sprite();
 
     // Funktioner som hanterar användargenererade händelser (input)
     virtual void mouseDown(const SDL_Event &) {}
     virtual void mouseUp(const SDL_Event &) {}
-    //  virtual void keyUp(const SDL_Event &) {}
-    // virtual void keyDown(const SDL_Event &) {}
+    virtual void keyUp(const SDL_Event &) {}
+    virtual void keyDown(const SDL_Event &) {}
 
     // Abstrakt funktion som måste definieras av subklasserna
     // Uppdaterar objektets tillstånd
@@ -38,16 +38,16 @@ namespace game
 
   protected:
     // Konstruktor
-    Component(int x, int y, int w, int h);
+    Sprite(int x, int y, int w, int h);
 
   private:
     SDL_Rect rect;
 
     // Skyddar mot värdesemantik genom att ta bort funktionaliteten för copykonstruktor och tilldelningsoperator
     // Instantiering via värdesemantik "förbjuds"
-    Component(const Component &) = delete;
+    Sprite(const Sprite &) = delete;
     // Instantiering via tilldelningsoperator "förbjuds"
-    const Component &operator=(const Component &) = delete;
+    const Sprite &operator=(const Sprite &) = delete;
   };
 }
 

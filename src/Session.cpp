@@ -4,12 +4,16 @@
 
 using namespace std;
 
-// Sätter värdet för framesPerSecond 
-// OBS!! Detta ska kunna anges??? 
+// Sätter värdet för framesPerSecond
+// OBS!! Detta ska kunna anges???
 #define FPS 80
 
 namespace game
 {
+
+	Session::Session()
+	{
+	}
 
 	void Session::add(Component *comp)
 	{
@@ -103,11 +107,14 @@ namespace game
 			removed.clear();
 
 			// Ritar ut objekten i det uppdaterade tillståndet
-			SDL_SetRenderDrawColor(sys.getRen(), 255, 255, 255, 255);
+
+			// SDL_SetRenderDrawColor(sys.getRen(), 255, 255, 255, 255);
 			SDL_RenderClear(sys.getRen());
+			SDL_RenderCopy(sys.getRen(), sys.getTex(), NULL, NULL);
+
 			for (Component *comp : components)
 				comp->draw();
-			// OBS!! Vad gör RenderCopy?? Behövs den? 	
+			// OBS!! Vad gör RenderCopy?? Behövs den?
 			// SDL_RenderCopy(sys.getRen(), sys.getTexture(), NULL, NULL);
 			SDL_RenderPresent(sys.getRen());
 
