@@ -13,15 +13,13 @@ namespace game
     void tick();
     void draw() const;
 
-    void mouseDown(const SDL_Event &);
-    void mouseUp(const SDL_Event &);
-    void keyUp(const SDL_Event &);
-    void keyDown(const SDL_Event &);
+    //vill vi kunna anropa en set()-funktion för att öka y vid varje tick?
+    void increasePosY();
 
     // Destruktor
     ~Target();
 
-  protected:
+    protected:
     Target(int x, int y, int w, int h);
   };
 

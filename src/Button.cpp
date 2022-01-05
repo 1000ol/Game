@@ -42,7 +42,7 @@ namespace game
       perform(this);
     isDown = false;
   }
-
+  
   // Ritar ut objektet
   void Button::draw() const
   {
