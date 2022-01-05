@@ -20,15 +20,41 @@ namespace game
         System();
         // Destruktor
         ~System();
+
+        void setWin(SDL_Window *wn)
+        {
+            win = wn;
+        }
+
+        SDL_Window *getWin()
+        {
+            return win;
+        }
+
+        void setRen(SDL_Renderer *rend)
+        {
+            ren = rend;
+        }
         // Statisk metod för att hämta renderare
         SDL_Renderer *getRen() const
         {
             return ren;
         }
+
+        void setFont(TTF_Font *fnt)
+        {
+            font = fnt;
+        }
+
         // Statisk metod för att hämta font
         TTF_Font *getFont() const
         {
             return font;
+        }
+
+        void setTex(SDL_Texture *tx)
+        {
+            tex = tx;
         }
 
         SDL_Texture *getTex() const

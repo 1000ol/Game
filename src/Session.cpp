@@ -4,7 +4,7 @@
 using namespace std;
 
 // Sätter värdet för framesPerSecond
-// OBS!! Detta ska kunna anges???
+// OBS!! Outsourca??
 #define FPS 80
 
 namespace game
@@ -26,6 +26,7 @@ namespace game
 		bool quit = false;
 
 		// Bestämmer takten
+		// OBS!! Outsourca??
 		Uint32 tickInterval = 1000 / FPS;
 		while (!quit)
 		{
@@ -102,8 +103,6 @@ namespace game
 			allElementsRemoved.clear();
 
 			// Ritar ut objekten i det uppdaterade tillståndet
-
-			// SDL_SetRenderDrawColor(sys.getRen(), 255, 255, 255, 255);
 			SDL_RenderClear(sys.getRen());
 			SDL_RenderCopy(sys.getRen(), sys.getTex(), NULL, NULL);
 
