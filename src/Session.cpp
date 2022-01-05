@@ -1,6 +1,5 @@
 #include "Session.h"
 #include "System.h"
-#include <SDL2/SDL.h>
 
 using namespace std;
 
@@ -10,19 +9,15 @@ using namespace std;
 
 namespace game
 {
-
-	Session::Session()
+	// Element-funktioner
+	void Session::addElement(Element *e)
 	{
+		allElements.push_back(e);
 	}
 
-	void Session::add(Component *comp)
+	void Session::removeElement(Element *e)
 	{
-		components.push_back(comp);
-	}
-
-	void Session::remove(Component *comp)
-	{
-		removed.push_back(comp);
+		allElementsRemoved.push_back(e);
 	}
 
 	void Session::run()
@@ -37,7 +32,8 @@ namespace game
 			// För tilläggsnivå C kolla om användargenererad händelse är kortkommando - anropa motsvarande funktion
 			Uint32 nextTick = SDL_GetTicks() + tickInterval;
 			SDL_Event event;
-			// Kollar användargenererade händelser i form
+
+			// Kollar användargenererade händelser
 			while (SDL_PollEvent(&event))
 			{
 				switch (event.type)
@@ -46,38 +42,37 @@ namespace game
 					quit = true;
 					break;
 				case SDL_MOUSEBUTTONDOWN:
-					for (Component *comp : components)
-						comp->mouseDown(event);
+					for (Element *e : allElements)
+						e->mouseDown(event);
 					break;
 				case SDL_MOUSEBUTTONUP:
-					for (Component *comp : components)
-						comp->mouseUp(event);
+					for (Element *e : allElements)
+						e->mouseUp(event);
 					break;
-				// OBS!! Ska vi även ha musrörelser här?
 				case SDL_KEYDOWN:
-					for (Component *comp : components)
-						comp->keyDown(event);
+					for (GameElement *gme : gameElements)
+						gme->keyDown(event);
 					break;
 				case SDL_KEYUP:
-					for (Component *comp : components)
-						comp->keyUp(event);
+					for (GameElement *gme : gameElements)
+						gme->keyUp(event);
 					break;
-				} // Switch
-			}		// Inre while
+				} // Switch-loop
+			}		// Inre while-loop
 
 			// OBS!! Uppdatera med tick sen
 			// Uppdaterar samtliga objekt
-			//	for (Component *comp : components)
-			// 	comp->tick();
+			for (Element *e : allElements)
+				e->tick();
 
 			// Kollisionskontroll för objekt
-			for (Component *comp : components)
+			for (GameElement *gme : gameElements)
 			{
-				for (Component *compOther : components)
+				for (GameElement *gmeOther : gameElements)
 				{
-					if (comp != compOther)
+					if (gme != gmeOther)
 					{
-						if (comp->getRect().x == compOther->getRect().x && comp->getRect().y == compOther->getRect().y)
+						if (gme->getRect().x == gmeOther->getRect().x && gme->getRect().y == gmeOther->getRect().y)
 						{
 							// Hantering av kollision görs här
 						}
@@ -86,25 +81,25 @@ namespace game
 			}
 
 			// Lägger till nya objekt
-			for (Component *comp : added)
-				components.push_back(comp);
-			added.clear();
+			for (Element *e : allElementsAdded)
+				allElements.push_back(e);
+			allElementsAdded.clear();
 
 			// Tar bort raderade objekt
-			for (Component *comp : removed)
+			for (Element *e : allElementsRemoved)
 			{
-				for (vector<Component *>::iterator i = components.begin();
-						 i != components.end();)
+				for (vector<Element *>::iterator i = allElementsRemoved.begin();
+						 i != allElementsRemoved.end();)
 				{
-					if (*i == comp)
+					if (*i == e)
 					{
-						i = components.erase(i);
+						i = allElements.erase(i);
 					}
 					else
 						i++;
 				} // Inre for-loop
 			}		// Yttre for-loop
-			removed.clear();
+			allElementsRemoved.clear();
 
 			// Ritar ut objekten i det uppdaterade tillståndet
 
@@ -112,10 +107,8 @@ namespace game
 			SDL_RenderClear(sys.getRen());
 			SDL_RenderCopy(sys.getRen(), sys.getTex(), NULL, NULL);
 
-			for (Component *comp : components)
-				comp->draw();
-			// OBS!! Vad gör RenderCopy?? Behövs den?
-			// SDL_RenderCopy(sys.getRen(), sys.getTexture(), NULL, NULL);
+			for (Element *e : allElements)
+				e->draw();
 			SDL_RenderPresent(sys.getRen());
 
 			// Tid kontrolleras och fördröjning framkallas
@@ -125,7 +118,7 @@ namespace game
 		} // Yttre while
 	}
 
-	// Destruktor - måste den vara här fast den är tom?
+	// OBS!! Destruktor - måste den vara här fast den är tom?
 	Session::~Session()
 	{
 	}

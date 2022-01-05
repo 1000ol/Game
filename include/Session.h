@@ -1,8 +1,10 @@
-#ifndef SESSION_H
-#define SESSION_H
+#include "Element.h"
+#include "GameElement.h"
 
 #include <vector>
-#include "Component.h"
+
+#ifndef SESSION_H
+#define SESSION_H
 
 namespace game
 {
@@ -12,18 +14,25 @@ namespace game
 
   public:
     // Default-konstruktor
-    Session();
-    void add(Component *);
-    void remove(Component *);
+    Session(){};
+    void addElement(Element *);
+    void removeElement(Element *);
     void run();
     // Destruktor
     ~Session();
 
   private:
-    // Samling av alla komponentobjekt
-    std::vector<Component *> components;
-    // Samlingar av tillagda och radera objekt
-    std::vector<Component *> added, removed;
+    // Samling av alla objekt
+    std::vector<Element *> allElements;
+
+    // Samling av alla adderade objekt
+    std::vector<Element *> allElementsAdded;
+
+    // Samling av alla raderade objekt
+    std::vector<Element *> allElementsRemoved;
+
+    // Samling av alla spelobjekt
+    std::vector<GameElement *> gameElements;
   };
 }
 

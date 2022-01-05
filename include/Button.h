@@ -1,41 +1,39 @@
+#include "UIElement.h"
+#include "Label.h"
+
+#include <SDL2_image/SDL_image.h>
+
 #ifndef BUTTON_H
 #define BUTTON_H
 
-#include "Component.h"
-#include <string>
-#include <SDL2/SDL.h>
-
 namespace game
 {
-  // Button subklass till Component
-  class Button : public Component
+  // Button subklass till UIElement
+  class Button : public UIElement
   {
   public:
-    static Button *getInstance(int x, int y, int w, int h, std::string txt);
+    static Button *getInstance(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown);
+
+    void tick();
+
+    void draw() const;
+
     void mouseDown(const SDL_Event &);
     void mouseUp(const SDL_Event &);
-    // void keyUp(const SDL_Event &);
-    // void keyDown(const SDL_Event &);
 
-    // virtual void tick();
-    void draw() const;
-    // OBS!! När använder vi denna???
-    virtual void perform(Button *source) {}
+    virtual void perform(Button *source);
 
     // Destruktor
     ~Button();
 
   protected:
-    Button(int x, int y, int w, int h, std::string txt);
+    Button(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown);
 
   private:
-    // OBS!! Privat eller protected konstruktor?
-    // Button(int x, int y, int w, int h, std::string txt);
-    std::string text;
-
-    // OBS!! Byta ut mot vårt content
+    Label *label;
     SDL_Texture *texture;
-    SDL_Texture *upIcon, *downIcon;
+    const char *imageSourceUp, *imageSourceDown;
+    SDL_Texture *imageMouseUp, *imageMouseDown;
     bool isDown = false;
   };
 

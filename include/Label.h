@@ -1,21 +1,23 @@
+#include "UIElement.h"
+
+#include <string>
+#include <SDL2_ttf/SDL_ttf.h>
+
 #ifndef LABEL_H
 #define LABEL_H
-
-#include "Component.h"
-#include <string>
-#include <SDL2/SDL.h>
-//#include <SDL2/SDL_surface.h>
 
 namespace game
 {
 
-  class Label : public Component
+  // Subklass till UIElement
+  class Label : public UIElement
   {
   public:
     // Skyddar mot värdesemantik genom att returnera pekare till det instantierade objektet
-    static Label *getInstance(int x, int y, int w, int h, std::string txt);
+    static Label *getInstance(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
 
-    // virtual void tick();
+    // OBS!! Vill vi verkligen ha kvar denna funktion?
+    void tick();
     void draw() const;
 
     std::string getText() const
@@ -25,16 +27,24 @@ namespace game
 
     void setText(std::string newText);
 
+    TTF_Font *getFont() const
+    {
+      return font;
+    }
+
+    SDL_Color getColor() const
+    {
+      return color;
+    }
+
     // Destruktor
     ~Label();
 
-  protected:
-    Label(int x, int y, int w, int h, std::string txt);
-
   private:
-    // OBS!! Privat eller protected konstruktor?
-    // Label(int x, int y, int w, int h, std::string txt);
+    Label(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
     std::string text;
+    TTF_Font *font;
+    SDL_Color color;
     SDL_Texture *texture;
   };
 

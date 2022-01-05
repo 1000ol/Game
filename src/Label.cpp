@@ -1,30 +1,29 @@
 #include "Label.h"
 #include "System.h"
 
-#include <SDL_ttf.h>
-#include <SDL2/SDL_surface.h>
-#include <iostream>
-#include <string>
-
 using namespace std;
 
 namespace game
 {
 
-  Label *Label::getInstance(int x, int y, int w, int h, std::string txt)
+  // Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
+  Label *Label::getInstance(int x, int y, int w, int h, string txt, TTF_Font *fnt, SDL_Color clr)
   {
-    return new Label(x, y, w, h, txt);
+    return new Label(x, y, w, h, txt, fnt, clr);
   }
 
   // Konstruktor
   Label::Label(int x, int y, int w, int h,
-               std::string txt) : Component(x, y, w, h), text(txt)
+               string txt, TTF_Font *fnt, SDL_Color clr) : UIElement(x, y, w, h), text(txt), font(fnt), color(clr)
   {
-    // OBS!! Font funkar inte?? Varför kan vi inte hämta fonten med sys.getFont() här???
-
-    SDL_Surface *surf = TTF_RenderText_Solid(sys.getFont(), text.c_str(), {0, 0, 0});
+    // Sätter font, storlek, färg för label
+    SDL_Surface *surf = TTF_RenderText_Solid(font, text.c_str(), color);
     texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
     SDL_FreeSurface(surf);
+  }
+
+  void Label::tick()
+  {
   }
 
   void Label::draw() const
@@ -32,13 +31,11 @@ namespace game
     SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
   }
 
-  void Label::setText(std::string newText)
+  void Label::setText(string newText)
   {
     text = newText;
     SDL_DestroyTexture(texture);
-    // OBS!! Font funkar inte??
-    SDL_Surface *surf = TTF_RenderText_Solid(sys.getFont(),
-                                             text.c_str(), {0, 0, 0});
+    SDL_Surface *surf = TTF_RenderText_Solid(font, text.c_str(), color);
     texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
     SDL_FreeSurface(surf);
   }
