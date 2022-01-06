@@ -46,6 +46,10 @@ namespace game
             font = fnt;
         }
 
+        void setSession(Session *s) {
+            session = s;
+        }
+
         // Statisk metod för att hämta font
         TTF_Font *getFont() const
         {

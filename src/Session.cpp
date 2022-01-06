@@ -108,10 +108,11 @@ namespace game
 			// Tar bort raderade objekt
 			for (Element *e : allElementsRemoved)
 			{
-				for (vector<Element *>::iterator i = allElementsRemoved.begin(); i != allElementsRemoved.end();)
+				for (vector<Element*>::iterator i = allElements.begin(); i != allElements.end();)
 				{
-					if (*i == e)
+					if (*i == e) {
 						i = allElements.erase(i);
+					}
 					else
 						i++;
 				} // Inre for-loop

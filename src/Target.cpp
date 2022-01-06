@@ -20,10 +20,11 @@ namespace game
 		//counter++;
 		if (rect.y >= 600) {
             sys.getSession()->removeElement(this);
-           // delete this;
+            delete this;
+            counter--;
         }
 		else
-			rect.y+= 10;
+			rect.y++;
 	}
 	
     void Target::draw() const {

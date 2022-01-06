@@ -22,6 +22,6 @@ namespace game
     private:
     SDL_Texture *texture;
   };
-
 }
+extern int counter;
 #endif
