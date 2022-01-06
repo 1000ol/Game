@@ -17,7 +17,7 @@ namespace game
     static Label *getInstance(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
 
     // OBS!! Vill vi verkligen ha kvar denna funktion?
-    void tick();
+    void tick(){};
     void draw() const;
 
     std::string getText() const

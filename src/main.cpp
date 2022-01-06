@@ -2,9 +2,12 @@
 #include "Session.h"
 #include "Button.h"
 #include "System.h"
+#include "Player.h"
+#include "Target.h"
 
 #include <string>
 #include <SDL2/SDL.h>
+#include <iostream>
 
 using namespace game;
 
@@ -19,30 +22,55 @@ class LeftButton : public Button
 {
 public:
 	LeftButton(Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : Button(100, 500, 100, 100, lbl, imgSrcUp, imgSrcDown) {}
-	void perform(Button *source)
-	{
+
+	/*
+	void Button::mouseDown(const SDL_Event &eve)
+  	{
+		//minska x-koordinaten för Player
 	}
+	void Button::mouseUp(const SDL_Event &eve)
+  	{
+		//stå still/inget
+	}
+	*/
 };
 
 class RightButton : public Button
 {
 public:
 	RightButton(Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : Button(780, 500, 100, 100, lbl, imgSrcUp, imgSrcDown) {}
-	void perform(Button *source)
-	{
+	/*
+	void Button::mouseDown(const SDL_Event &eve)
+  	{
+		//öka x-koordinaten för Player
 	}
+	void Button::mouseUp(const SDL_Event &eve)
+  	{
+		//stå still/inget
+	}
+	*/
 };
 
 class PlayButton : public Button
 {
 public:
 	PlayButton(Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : Button(420, 350, 180, 80, lbl, imgSrcUp, imgSrcDown) {}
-	void perform(Button *source)
-	{
+
+	void perform(Button* source) {
 		renderGame();
 	}
+
 };
 
+void refreshRenderer(const char* imgSrc) {
+
+	sys.setRen(SDL_CreateRenderer(sys.getWin(), -1, 0));
+	SDL_Surface *sur = IMG_Load(imgSrc);
+	sys.setTex(SDL_CreateTextureFromSurface(sys.getRen(), sur));
+	SDL_FreeSurface(sur);
+}
+
+// Initerar spelfönstret efter användaren klickat på PlayButton
 void renderGame() {
 	//vill man skapa ny session? - nej?
 	//men vi vill rendera nytt fönster? - typ
@@ -50,13 +78,8 @@ void renderGame() {
 	//OBS!! Vad händer med alla andra element? Raderas dem?
 	// Stänger ner renderare
     SDL_DestroyRenderer(sys.getRen());
-	// Skapar en renderare
-	sys.setRen(SDL_CreateRenderer(sys.getWin(), -1, 0));
 
-	//OBS!! Duplicering av kod
-	SDL_Surface *sur = IMG_Load((resPath + "images/space.jpg").c_str());
-	sys.setTex(SDL_CreateTextureFromSurface(sys.getRen(), sur));
-	SDL_FreeSurface(sur);
+ 	refreshRenderer((resPath + "images/space.png").c_str());
 
 	Label *leftLbl = Label::getInstance(1, 1, 1, 1, "L", TTF_OpenFont((resPath + "fonts/Arial.ttf").c_str(), 100), {255, 10, 170});
 	Label *rightLbl = Label::getInstance(1, 1, 1, 1, "R", TTF_OpenFont((resPath + "fonts/Arial.ttf").c_str(), 100), {255, 10, 170});
@@ -73,18 +96,23 @@ void renderGame() {
 	Label *scoreLbl = Label::getInstance(820, 10, 85, 35, score, TTF_OpenFont((resPath + "fonts/Arial.ttf").c_str(), 100), {255, 10, 170});
 
 	sys.getSession()->addElement(scoreLbl);
+
+	Player *player = Player::getInstance(360, 440, 150, 150, (resPath + "images/hole.png").c_str());
+	sys.getSession()->addElement(player);
+
+	Target *target = Target::getInstance(360, 0, 100, 100, (resPath + "images/bg.png").c_str());
+	sys.getSession()->addElement(target);
+
+	
 }
 
+// Startskärmen
 void initiate() {
 	// Skapar ett fönster
 	sys.setWin(SDL_CreateWindow("Game", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1000, 600, 0));
 
 	// Skapar en renderare
-	sys.setRen(SDL_CreateRenderer(sys.getWin(), -1, 0));
-
-	SDL_Surface *sur = IMG_Load((resPath + "images/space.jpg").c_str());
-	sys.setTex(SDL_CreateTextureFromSurface(sys.getRen(), sur));
-	SDL_FreeSurface(sur);
+	refreshRenderer((resPath + "images/space.png").c_str());
 
 	// OBS!! Hur får vi bra width+height och koordinatvärden på objekten?
 	Label *title = Label::getInstance(360, 80, 300, 150, "The Game", TTF_OpenFont((resPath + "fonts/Arial.ttf").c_str(), 50), {255, 10, 170});
@@ -94,6 +122,7 @@ void initiate() {
 
 	sys.getSession()->addElement(title);
 	sys.getSession()->addElement(playButton);
+
 }
 
 int main(int argc, char **argv)

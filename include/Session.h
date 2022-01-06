@@ -31,8 +31,6 @@ namespace game
     // Samling av alla raderade objekt
     std::vector<Element *> allElementsRemoved;
 
-    // Samling av alla spelobjekt
-    std::vector<GameElement *> gameElements;
   };
 }
 

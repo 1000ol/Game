@@ -14,14 +14,14 @@ namespace game
   public:
     static Button *getInstance(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown);
 
-    void tick();
+    void tick(){};
 
     void draw() const;
 
     void mouseDown(const SDL_Event &);
     void mouseUp(const SDL_Event &);
 
-    virtual void perform(Button *source);
+    virtual void perform(Button *){};
 
     // Destruktor
     ~Button();

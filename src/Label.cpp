@@ -22,10 +22,6 @@ namespace game
     SDL_FreeSurface(surf);
   }
 
-  void Label::tick()
-  {
-  }
-
   void Label::draw() const
   {
     SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());

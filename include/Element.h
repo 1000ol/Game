@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 
+
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
@@ -31,14 +32,14 @@ namespace game
     }
 
     // Destruktor - virtual så att den kan överskuggas av subklasser
-    virtual ~Element();
+    virtual ~Element(){};
 
   protected:
     // Konstruktor som är protected så att subklasser kan använda den
-    Element(int x, int y, int w, int h);
+    Element(int x, int y, int w, int h) : rect{x, y, w, h} {};
+    SDL_Rect rect;
 
   private:
-    SDL_Rect rect;
 
     // Skyddar mot värdesemantik genom att ta bort funktionaliteten för copykonstruktor och tilldelningsoperator
     // Instantiering via värdesemantik "förbjuds"

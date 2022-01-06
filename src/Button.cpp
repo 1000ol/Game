@@ -22,10 +22,6 @@ namespace game
     imageMouseDown = IMG_LoadTexture(sys.getRen(), imageSourceDown);
   }
 
-  void Button::tick()
-  {
-  }
-
   // Hanterar när musknapp trycks ner
   void Button::mouseDown(const SDL_Event &eve)
   {
@@ -39,22 +35,19 @@ namespace game
   {
     SDL_Point p = {eve.button.x, eve.button.y};
     if (SDL_PointInRect(&p, &getRect()))
-      perform(this);
+        perform(this);
     isDown = false;
   }
-  
+
   // Ritar ut objektet
   void Button::draw() const
   {
-    if (isDown)
+    if (isDown) {
       SDL_RenderCopy(sys.getRen(), imageMouseDown, NULL, &getRect());
+    }
     else
       SDL_RenderCopy(sys.getRen(), imageMouseUp, NULL, &getRect());
     SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
-  }
-
-  void Button::perform(Button *source)
-  {
   }
 
   // Destruktor

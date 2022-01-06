@@ -1,4 +1,5 @@
 #include "Element.h"
+#include <SDL2_image/SDL_image.h>
 
 #ifndef GAMEELEMENT_H
 #define GAMEELEMENT_H
@@ -10,15 +11,25 @@ namespace game
   {
 
   public:
-    // Funktioner som hanterar användargenererade händelser (input)
-    virtual void keyUp(const SDL_Event &) = 0;
-    virtual void keyDown(const SDL_Event &) = 0;
+    static GameElement *getInstance(int x, int y, int w, int h, const char *imgSrc);
+   // class LeftButton och class RightButton kontrollerar musevent
+    
 
-    // Destruktor - virtual så att den kan överskuggas av subklasser
-    virtual ~GameElement();
+      void tick(){};
+      void draw() const {};
+    // Funktioner som hanterar användargenererade händelser (input)
+    virtual void keyUp(const SDL_Event &){};
+    virtual void keyDown(const SDL_Event &){};
+  
+    // Destruktor
+    ~GameElement();
 
   protected:
-    using Element::Element;
+    GameElement(int x, int y, int w, int h, const char* imgSrc);
+    const char *imageSource;
+    SDL_Texture* texture;
+
+
   };
 }
 

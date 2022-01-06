@@ -11,7 +11,7 @@ namespace game
 
   public:
     // Destruktor - virtual så att den kan överskuggas av subklasser
-    virtual ~UIElement();
+    virtual ~UIElement(){};
 
   protected:
     using Element::Element;

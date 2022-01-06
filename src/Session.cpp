@@ -1,5 +1,8 @@
 #include "Session.h"
 #include "System.h"
+#include "Player.h"
+
+#include <iostream>
 
 using namespace std;
 
@@ -51,14 +54,28 @@ namespace game
 						e->mouseUp(event);
 					break;
 				case SDL_KEYDOWN:
-					for (GameElement *gme : gameElements)
-						gme->keyDown(event);
-					break;
+					for (Element *e : allElements) {
+						if (Player* player = dynamic_cast<Player*>(e)) {
+							switch(event.key.keysym.sym ){
+							case SDLK_LEFT:
+								cout << "left" << endl;
+								player->moveLeft();
+								break;
+							case SDLK_RIGHT:
+								cout << "right" << endl;
+								player->moveRight();
+							
+								break;
+							}
+						}
+					}
 				case SDL_KEYUP:
-					for (GameElement *gme : gameElements)
-						gme->keyUp(event);
+					//for (Element *e : allElements) {
+						//if (Player* player = dynamic_cast<Player*>(e)) 
+					//}
 					break;
-				} // Switch-loop
+			
+				} // Switch
 			}		// Inre while-loop
 
 			// OBS!! Uppdatera med tick sen
@@ -66,6 +83,7 @@ namespace game
 			for (Element *e : allElements)
 				e->tick();
 
+			/*
 			// Kollisionskontroll för objekt
 			for (GameElement *gme : gameElements)
 			{
@@ -80,6 +98,7 @@ namespace game
 					}
 				}
 			}
+			*/
 
 			// Lägger till nya objekt
 			for (Element *e : allElementsAdded)
@@ -89,13 +108,10 @@ namespace game
 			// Tar bort raderade objekt
 			for (Element *e : allElementsRemoved)
 			{
-				for (vector<Element *>::iterator i = allElementsRemoved.begin();
-						 i != allElementsRemoved.end();)
+				for (vector<Element *>::iterator i = allElementsRemoved.begin(); i != allElementsRemoved.end();)
 				{
 					if (*i == e)
-					{
 						i = allElements.erase(i);
-					}
 					else
 						i++;
 				} // Inre for-loop
