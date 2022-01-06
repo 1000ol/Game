@@ -12,6 +12,7 @@ using namespace game;
 const std::string resPath = "../../resources/";
 int scoreValue = 0;
 
+void renderGame();
 //OBS!! Nu har det blivit en konsitg placering av klasser och funktioner för att de ska kunna hitta varandra
 
 class LeftButton : public Button
@@ -29,6 +30,16 @@ public:
 	RightButton(Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : Button(780, 500, 100, 100, lbl, imgSrcUp, imgSrcDown) {}
 	void perform(Button *source)
 	{
+	}
+};
+
+class PlayButton : public Button
+{
+public:
+	PlayButton(Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : Button(420, 350, 180, 80, lbl, imgSrcUp, imgSrcDown) {}
+	void perform(Button *source)
+	{
+		renderGame();
 	}
 };
 
@@ -63,22 +74,6 @@ void renderGame() {
 
 	sys.getSession()->addElement(scoreLbl);
 }
-
-class PlayButton : public Button
-{
-public:
-	PlayButton(Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : Button(420, 350, 180, 80, lbl, imgSrcUp, imgSrcDown) {}
-	void perform(Button *source)
-	{
-		/*
-		SDL_Surface *sur = IMG_Load((resPath + "images/bg.jpg").c_str());
-		sys.setTex(SDL_CreateTextureFromSurface(sys.getRen(), sur));
-		SDL_FreeSurface(sur);
-		// här ska playButton försvinna
-		*/
-		renderGame();
-	}
-};
 
 void initiate() {
 	// Skapar ett fönster

@@ -14,7 +14,7 @@ namespace game
   // Konstruktor
   Button::Button(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : UIElement(x, y, w, h), label(lbl), imageSourceUp(imgSrcUp), imageSourceDown(imgSrcDown)
   {
-    SDL_Surface *surf = TTF_RenderText_Solid(lbl->getFont(), lbl->getText().c_str(), lbl->getColor());
+    SDL_Surface *surf = TTF_RenderText_Solid(label->getFont(), label->getText().c_str(), label->getColor());
     texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
     SDL_FreeSurface(surf);
 
