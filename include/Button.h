@@ -12,7 +12,7 @@ namespace game
   class Button : public UIElement
   {
   public:
-    static Button *getInstance(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown);
+    static Button *getInstance(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown);
 
     void tick(){};
 
@@ -27,13 +27,11 @@ namespace game
     ~Button();
 
   protected:
-    Button(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown);
+    Button(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown);
 
   private:
-    Label *label;
-    SDL_Texture *texture;
+    SDL_Texture *texture, *textureDown;
     const char *imageSourceUp, *imageSourceDown;
-    SDL_Texture *imageMouseUp, *imageMouseDown;
     bool isDown = false;
   };
 

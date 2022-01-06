@@ -54,9 +54,12 @@ namespace game
 						e->mouseUp(event);
 					break;
 				case SDL_KEYDOWN:
-					for (Element *e : allElements) {
-						if (Player* player = dynamic_cast<Player*>(e)) {
-							switch(event.key.keysym.sym ){
+					for (Element *e : allElements)
+					{
+						if (Player *player = dynamic_cast<Player *>(e))
+						{
+							switch (event.key.keysym.sym)
+							{
 							case SDLK_LEFT:
 								cout << "left" << endl;
 								player->moveLeft();
@@ -64,41 +67,46 @@ namespace game
 							case SDLK_RIGHT:
 								cout << "right" << endl;
 								player->moveRight();
-							
+
 								break;
 							}
 						}
 					}
 				case SDL_KEYUP:
-					//for (Element *e : allElements) {
-						//if (Player* player = dynamic_cast<Player*>(e)) 
+					// for (Element *e : allElements) {
+					// if (Player* player = dynamic_cast<Player*>(e))
 					//}
 					break;
-			
+					// OBS!! case mouseRight och mouseLeft
 				} // Switch
 			}		// Inre while-loop
 
 			// OBS!! Uppdatera med tick sen
 			// Uppdaterar samtliga objekt
 			for (Element *e : allElements)
-				e->tick();
+				if (GameElement *gme = dynamic_cast<GameElement *>(e))
+					gme->tick();
 
 			/*
-			// Kollisionskontroll för objekt
-			for (GameElement *gme : gameElements)
-			{
-				for (GameElement *gmeOther : gameElements)
-				{
-					if (gme != gmeOther)
-					{
-						if (gme->getRect().x == gmeOther->getRect().x && gme->getRect().y == gmeOther->getRect().y)
+						// Kollisionskontroll för objekt
+						for (Element *e : allElements)
 						{
-							// Hantering av kollision görs här
+							if (Player *p = dynamic_cast<Player *>(e))
+							{
+								for (Elements *eOther : allElements)
+								{
+									if (Target *t = dynamic_cast<Target *>(eOther))
+									{
+										if (p->getRect().x == t->getRect().x && p->getRect().y == t->getRect().y)
+										{
+											std::cout << "KOLLISION" << std ::endl; // Hantering av kollision görs här
+										}
+									}
+								}
+							}
 						}
-					}
-				}
-			}
-			*/
+
+						*/
 
 			// Lägger till nya objekt
 			for (Element *e : allElementsAdded)
@@ -108,9 +116,10 @@ namespace game
 			// Tar bort raderade objekt
 			for (Element *e : allElementsRemoved)
 			{
-				for (vector<Element*>::iterator i = allElements.begin(); i != allElements.end();)
+				for (vector<Element *>::iterator i = allElements.begin(); i != allElements.end();)
 				{
-					if (*i == e) {
+					if (*i == e)
+					{
 						i = allElements.erase(i);
 					}
 					else

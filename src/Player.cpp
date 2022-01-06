@@ -16,25 +16,36 @@ namespace game
         texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
         SDL_FreeSurface(surf);
     }
-    
-    void Player::draw() const {
+
+    void Player::tick()
+    {
+    }
+
+    void Player::draw() const
+    {
         SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
     }
 
-    void Player::moveRight(){
-        rect.x += 20;
+    void Player::moveRight()
+    {
+        if (rect.x > 850)
+            rect.x = 850;
+        else
+            rect.x += 20;
         std::cout << rect.x << std::endl;
-        
     }
 
-    void Player::moveLeft(){
-        rect.x -= 20;
+    void Player::moveLeft()
+    {
+        if (rect.x < 150)
+            rect.x = 150;
+        else
+            rect.x -= 20;
         std::cout << rect.x << std::endl;
-
     }
 
-    Player::~Player() {
+    Player::~Player()
+    {
         SDL_DestroyTexture(texture);
     }
-    
 }

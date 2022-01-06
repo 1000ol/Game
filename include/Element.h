@@ -1,6 +1,5 @@
 #include <SDL2/SDL.h>
 
-
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
@@ -11,11 +10,7 @@ namespace game
   {
 
   public:
-    // Abstrakt funktion som måste definieras av subklasserna
-    // Uppdaterar objektets tillstånd
-    virtual void tick() = 0;
-
-    // Abstrakt funktion som måste definieras av subklasserna
+        // Abstrakt funktion som måste definieras av subklasserna
     // Funktion som är const för att den inte ändrar objektet
     // Ritar ut objektet
     virtual void draw() const = 0;
@@ -40,7 +35,6 @@ namespace game
     SDL_Rect rect;
 
   private:
-
     // Skyddar mot värdesemantik genom att ta bort funktionaliteten för copykonstruktor och tilldelningsoperator
     // Instantiering via värdesemantik "förbjuds"
     Element(const Element &) = delete;

@@ -6,20 +6,19 @@ using namespace std;
 namespace game
 {
 
-  Button *Button::getInstance(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown)
+  Button *Button::getInstance(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown)
   {
-    return new Button(x, y, w, h, lbl, imgSrcUp, imgSrcDown);
+    return new Button(x, y, w, h, imgSrcUp, imgSrcDown);
   };
 
   // Konstruktor
-  Button::Button(int x, int y, int w, int h, Label *lbl, const char *imgSrcUp, const char *imgSrcDown) : UIElement(x, y, w, h), label(lbl), imageSourceUp(imgSrcUp), imageSourceDown(imgSrcDown)
+  Button::Button(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown) : UIElement(x, y, w, h), imageSourceUp(imgSrcUp), imageSourceDown(imgSrcDown)
   {
-    SDL_Surface *surf = TTF_RenderText_Solid(label->getFont(), label->getText().c_str(), label->getColor());
+
+    SDL_Surface *surf = IMG_Load(imageSourceUp);
     texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
     SDL_FreeSurface(surf);
-
-    imageMouseUp = IMG_LoadTexture(sys.getRen(), imageSourceUp);
-    imageMouseDown = IMG_LoadTexture(sys.getRen(), imageSourceDown);
+    textureDown = IMG_LoadTexture(sys.getRen(), imageSourceDown);
   }
 
   // Hanterar när musknapp trycks ner
@@ -35,27 +34,26 @@ namespace game
   {
     SDL_Point p = {eve.button.x, eve.button.y};
     if (SDL_PointInRect(&p, &getRect()))
-        perform(this);
+      perform(this);
     isDown = false;
   }
 
   // Ritar ut objektet
   void Button::draw() const
   {
-    if (isDown) {
-      SDL_RenderCopy(sys.getRen(), imageMouseDown, NULL, &getRect());
+    if (isDown)
+    {
+      SDL_RenderCopy(sys.getRen(), textureDown, NULL, &getRect());
     }
     else
-      SDL_RenderCopy(sys.getRen(), imageMouseUp, NULL, &getRect());
-    SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
+      SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
   }
 
   // Destruktor
   Button::~Button()
   {
     SDL_DestroyTexture(texture);
-    SDL_DestroyTexture(imageMouseUp);
-    SDL_DestroyTexture(imageMouseDown);
+    SDL_DestroyTexture(textureDown);
   }
 
 }

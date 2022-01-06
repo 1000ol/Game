@@ -6,14 +6,14 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-namespace game 
+namespace game
 {
-    class Player : public GameElement 
+    class Player : public GameElement
     {
     public:
         static Player *getInstance(int x, int y, int w, int h, const char *imgSrc);
 
-        void tick(){};
+        void tick();
         void draw() const;
 
         /*
@@ -30,11 +30,8 @@ namespace game
 
     protected:
         Player(int x, int y, int w, int h, const char *imgSrc);
+    };
 
-    }; 
-   
 }
 
-
 #endif
-

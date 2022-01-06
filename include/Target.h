@@ -7,8 +7,8 @@ namespace game
 {
   class Target : public GameElement
   {
-    public:
-    static Target *getInstance(int x, int y, int w, int h, const char* imgSrc);
+  public:
+    static Target *getInstance(int x, int y, int w, int h, const char *imgSrc);
 
     void tick();
     void draw() const;
@@ -16,10 +16,10 @@ namespace game
     // Destruktor
     ~Target();
 
-    protected:
-    Target(int x, int y, int w, int h, const char* imgSrc);
+  protected:
+    Target(int x, int y, int w, int h, const char *imgSrc);
 
-    private:
+  private:
     SDL_Texture *texture;
   };
 }

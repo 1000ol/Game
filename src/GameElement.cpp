@@ -4,12 +4,6 @@
 // Behövs dessa tomma konstruktorer/destruktorer här?
 namespace game
 {
-
-  GameElement *GameElement::getInstance(int x, int y, int w, int h, const char *imgSrc)
-    {
-        return new GameElement(x, y, w, h, imgSrc);
-    }
-
     // Konstruktor
     GameElement::GameElement(int x, int y, int w, int h, const char *imgSrc) : Element(x, y, w, h), imageSource(imgSrc)
     {
@@ -18,7 +12,8 @@ namespace game
         SDL_FreeSurface(surf);
     }
 
-    GameElement::~GameElement() {
+    GameElement::~GameElement()
+    {
         SDL_DestroyTexture(texture);
     }
 
