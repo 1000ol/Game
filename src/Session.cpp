@@ -38,7 +38,6 @@ void Session::removeAllElements() {
 
 void Session::checkUserInput() {
 	SDL_Event event;
-	int count = 0;
 
 	// Kollar användargenererade händelser
 	while (SDL_PollEvent(&event))
@@ -55,12 +54,8 @@ void Session::checkUserInput() {
 			break;
 		case SDL_MOUSEBUTTONUP:
 			for (shared_ptr<Element> e : allElements) {
-				count++;
-				std::cout << count << std::endl;
 				if (shared_ptr<Button> b = dynamic_pointer_cast<Button>(e)) {
-					std::cout << "Hittat en knapp i mouseButtonUp" << std::endl;
 					b->mouseUp(event);
-					std::cout << "mouseUp() utfört" << std::endl;
 				}
 			}
 				
@@ -74,11 +69,9 @@ void Session::checkUserInput() {
 					switch (event.key.keysym.sym)
 					{
 					case SDLK_LEFT:
-						cout << "left" << endl;
 						player->moveLeft();
 						break;
 					case SDLK_RIGHT:
-						cout << "right" << endl;
 						player->moveRight();
 
 						break;
@@ -138,19 +131,19 @@ void Session::handleAddedObjects() {
 void Session::handleRemovedObjects() {
 
 // Tar bort raderade objekt
-	for (shared_ptr<Element> e : allElementsRemoved)
+for (shared_ptr<Element> e : allElementsRemoved)
+{
+	for (vector<shared_ptr<Element>>::iterator i = allElements.begin(); i != allElements.end();)
 	{
-		for (vector<shared_ptr<Element>>::iterator i = allElements.begin(); i != allElements.end();)
+		if (*i == e)
 		{
-			if (*i == e)
-			{
-				i = allElements.erase(i);
-			}
-			else
-				i++;
-		} // Inre for-loop
-	}		// Yttre for-loop
-	allElementsRemoved.clear();
+			i = allElements.erase(i);
+		}
+		else
+			i++;
+	} // Inre for-loop
+}	// Yttre for-loop
+allElementsRemoved.clear();
 }
 
 void Session::drawObjects() {
