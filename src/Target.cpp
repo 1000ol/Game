@@ -19,13 +19,14 @@ namespace gameEngine
 
     void Target::tick()
     {
+        pace++;
         if (rect.y >= 600)
         {
             sys.getSession()->removeElement(shared_from_this());
             counter--;
         }
-        else
-            rect.y++;
+        else if (pace % 10 == 0)
+            rect.y+=2;
     }
 
 }

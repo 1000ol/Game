@@ -85,7 +85,7 @@ static shared_ptr<PlayButton>getInstance() {
 		return make_shared<PlayButton>();
 	}
 
-		PlayButton() : Button(500, 300, 200, 100, (resPath + "images/startUp.png").c_str(), (resPath + "images/startUpClicked.png").c_str()) {}
+		PlayButton() : Button(510, 400, 200, 100, (resPath + "images/startUp.png").c_str(), (resPath + "images/startUpClicked.png").c_str()) {}
 
 	void perform(shared_ptr<Button> source)
 	{
@@ -123,7 +123,7 @@ void renderGame()
 	sys.getSession()->addElement(closeButton);
 
 	std::string score = "Score: " + std::to_string(scoreValue);
-	shared_ptr<Label> scoreLbl = Label::getInstance(1020, 50, 85, 35, score, TTF_OpenFont((resPath + "fonts/AllerDisplay.ttf").c_str(), 100), {255, 10, 170});
+	shared_ptr<Label> scoreLbl = Label::getInstance(1020, 50, 85, 35, score, TTF_OpenFont((resPath + "fonts/AllerDisplay.ttf").c_str(), 80), {240, 255, 255});
 
 	sys.getSession()->addElement(scoreLbl);
 
@@ -157,13 +157,11 @@ void initiate()
 	refreshRenderer((resPath + "images/space.png").c_str());
 
 	// Se om det är rätt version uppe
-	shared_ptr<Label> versionLbl = Label::getInstance(1100, 670, 75, 25, "Version 1.5", TTF_OpenFont((resPath + "fonts/AllerDisplay.ttf").c_str(), 100), {255, 255, 255});
-	sys.getSession()->addElement(versionLbl);
-	
-	shared_ptr<Label> title = Label::getInstance(425, 100, 350, 150, "The Game", TTF_OpenFont((resPath + "fonts/AllerDisplay.ttf").c_str(), 20), {255, 255, 255});
-
+	shared_ptr<Label> versionLbl = Label::getInstance(1100, 670, 75, 25, "Version 1.1", TTF_OpenFont((resPath + "fonts/AllerDisplay.ttf").c_str(), 100), {240, 255, 255});
+	shared_ptr<Label> title = Label::getInstance(410, 100, 380, 120, "The Game", TTF_OpenFont((resPath + "fonts/AllerDisplay.ttf").c_str(), 350), {240, 255, 255});
 	shared_ptr<Button> playButton = PlayButton::getInstance();
 
+	sys.getSession()->addElement(versionLbl);
 	sys.getSession()->addElement(title);
 	//Playbutton msåte vara sist här för att for-loopen i Session.run() ska funka. Går detta att ordna på annat sätt?
 	sys.getSession()->addElement(playButton);

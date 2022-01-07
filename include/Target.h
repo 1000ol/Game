@@ -12,6 +12,9 @@ namespace gameEngine
     Target(int x, int y, int w, int h, const char *imgSrc);
 
     void tick();
+
+  private:
+    int pace = 0;
   };
 }
 extern int counter;
