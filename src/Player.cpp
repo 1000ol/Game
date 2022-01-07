@@ -24,7 +24,6 @@ namespace gameEngine
             rect.x = 850;
         else
             rect.x += 20;
-        std::cout << rect.x << std::endl;
     }
 
     void Player::moveLeft()
@@ -33,7 +32,6 @@ namespace gameEngine
             rect.x = 150;
         else
             rect.x -= 20;
-        std::cout << rect.x << std::endl;
     }
 
 }

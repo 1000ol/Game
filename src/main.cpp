@@ -38,16 +38,6 @@ public:
 	}
 
 	LeftButton() : Button(75, 575, 75, 75, (resPath + "images/left.png").c_str(), (resPath + "images/leftClicked.png").c_str()) {}
-	/*
-	void Button::mouseDown(const SDL_Event &eve)
-		{
-		//minska x-koordinaten för Player
-	}
-	void Button::mouseUp(const SDL_Event &eve)
-		{
-		//stå still/inget
-	}
-	*/
 };
 
 class RightButton : public Button
@@ -60,16 +50,6 @@ public:
 	}
 
 	RightButton() : Button(1050, 575, 75, 75, (resPath + "images/right.png").c_str(), (resPath + "images/rightClicked.png").c_str()) {}
-	/*
-	void Button::mouseDown(const SDL_Event &eve)
-		{
-		//öka x-koordinaten för Player
-	}
-	void Button::mouseUp(const SDL_Event &eve)
-		{
-		//stå still/inget
-	}
-	*/
 };
 
 class CloseButton : public Button
@@ -109,13 +89,7 @@ static shared_ptr<PlayButton>getInstance() {
 
 	void perform(shared_ptr<Button> source)
 	{
-
-		std::cout << "Initierar renderGame()" << std::endl;
 		renderGame();
-		std::cout << "Tillbaka i perform(), funktionen avslutas" << std::endl;
-
-		//Problemet med bad access i Session är att vi raderar objektet när vi är inne i en av objektets funktioner
-		//vi kommer alltså inte ut
 	}
 
 
@@ -132,8 +106,6 @@ void refreshRenderer(const char *imgSrc)
 // Initerar spelfönstret efter användaren klickat på PlayButton
 void renderGame()
 {
-	std::cout << "I början av renderGame()" << std::endl;
-	// OBS!! Vad händer med alla andra element? Raderas dem?
 	// Stänger ner renderare
 	SDL_DestroyRenderer(sys.getRen());
 
@@ -149,8 +121,6 @@ void renderGame()
 	sys.getSession()->addElement(leftButton);
 	sys.getSession()->addElement(rightButton);
 	sys.getSession()->addElement(closeButton);
-
-	// OBS!! Vill vi ha en X-knapp för att gå tillbaka till startsidan? Onödigt?
 
 	std::string score = "Score: " + std::to_string(scoreValue);
 	shared_ptr<Label> scoreLbl = Label::getInstance(1020, 50, 85, 35, score, TTF_OpenFont((resPath + "fonts/AllerDisplay.ttf").c_str(), 100), {255, 10, 170});
@@ -174,7 +144,6 @@ void renderGame()
 		counter++;
 		// OBS!! Anropa någon slags delay
 	}
-	std::cout << "Ingen mer aktivitet i renderGame()" << std::endl;	
 }
 
 // Startskärmen
