@@ -6,7 +6,7 @@
 #ifndef SESSION_H
 #define SESSION_H
 
-namespace game
+namespace gameEngine
 {
 
   class Session
@@ -14,24 +14,40 @@ namespace game
 
   public:
     // Default-konstruktor
-    Session(){};
-    void addElement(Element *);
-    void removeElement(Element *);
+    Session();
+    void addElement(std::shared_ptr<Element>);
+    void removeElement(std::shared_ptr<Element>);
+    void removeAllElements();
     void run();
     // Destruktor
-    ~Session();
+    ~Session(){};
 
   private:
+    
+    void checkUserInput();
+    void updateObjectsState();
+    void checkForCollision();
+    void handleAddedObjects();
+    void handleRemovedObjects();
+    void drawObjects();
+    void handleDelay();
+    
+    Uint32 tickInterval;
+    Uint32 nextTick;
+    bool quit = false;
+
     // Samling av alla objekt
-    std::vector<Element *> allElements;
+    std::vector<std::shared_ptr<Element>> allElements;
 
     // Samling av alla adderade objekt
-    std::vector<Element *> allElementsAdded;
+    std::vector<std::shared_ptr<Element>> allElementsAdded;
 
     // Samling av alla raderade objekt
-    std::vector<Element *> allElementsRemoved;
+    std::vector<std::shared_ptr<Element>> allElementsRemoved;
 
   };
 }
+
+extern int fps, performance;
 
 #endif

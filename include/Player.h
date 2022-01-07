@@ -6,30 +6,20 @@
 #ifndef PLAYER_H
 #define PLAYER_H
 
-namespace game
+namespace gameEngine
 {
     class Player : public GameElement
     {
     public:
-        static Player *getInstance(int x, int y, int w, int h, const char *imgSrc);
+        static std::shared_ptr<Player>getInstance(int x, int y, int w, int h, const char *imgSrc);
 
-        void tick();
-        void draw() const;
+        Player(int x, int y, int w, int h, const char *imgSrc);
 
-        /*
-        void mouseDown(const SDL_Event &) {};
-        void mouseUp(const SDL_Event &){};
-        */
+        void tick(){};
+
         void moveRight();
         void moveLeft();
 
-        void perform(Player *){};
-
-        // Destruktor
-        ~Player();
-
-    protected:
-        Player(int x, int y, int w, int h, const char *imgSrc);
     };
 
 }

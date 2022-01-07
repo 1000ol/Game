@@ -2,28 +2,20 @@
 #include "System.h"
 #include <iostream>
 
-namespace game
+namespace gameEngine
 {
-    Player *Player::getInstance(int x, int y, int w, int h, const char *imgSrc)
+    // Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
+   std::shared_ptr<Player> Player::getInstance(int x, int y, int w, int h, const char *imgSrc)
     {
-        return new Player(x, y, w, h, imgSrc);
+        return std::make_shared<Player>(x, y, w, h, imgSrc);
     }
 
     // Konstruktor
     Player::Player(int x, int y, int w, int h, const char *imgSrc) : GameElement(x, y, w, h, imgSrc)
     {
         SDL_Surface *surf = IMG_Load(imageSource);
-        texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
+        setTexture(SDL_CreateTextureFromSurface(sys.getRen(), surf));
         SDL_FreeSurface(surf);
-    }
-
-    void Player::tick()
-    {
-    }
-
-    void Player::draw() const
-    {
-        SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
     }
 
     void Player::moveRight()
@@ -44,8 +36,4 @@ namespace game
         std::cout << rect.x << std::endl;
     }
 
-    Player::~Player()
-    {
-        SDL_DestroyTexture(texture);
-    }
 }

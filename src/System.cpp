@@ -2,7 +2,7 @@
 #include <iostream>
 using namespace std;
 
-namespace game
+namespace gameEngine
 {
     // Konstruktor
     System::System()

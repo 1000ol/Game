@@ -6,7 +6,7 @@
 #ifndef LABEL_H
 #define LABEL_H
 
-namespace game
+namespace gameEngine
 {
 
   // Subklass till UIElement
@@ -14,11 +14,9 @@ namespace game
   {
   public:
     // Skyddar mot värdesemantik genom att returnera pekare till det instantierade objektet
-    static Label *getInstance(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
+    static std::shared_ptr<Label> getInstance(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
 
-    // OBS!! Vill vi verkligen ha kvar denna funktion?
-    void tick(){};
-    void draw() const;
+    Label(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
 
     std::string getText() const
     {
@@ -37,15 +35,10 @@ namespace game
       return color;
     }
 
-    // Destruktor
-    ~Label();
-
   private:
-    Label(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
     std::string text;
     TTF_Font *font;
     SDL_Color color;
-    SDL_Texture *texture;
   };
 
 }

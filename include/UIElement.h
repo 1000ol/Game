@@ -1,19 +1,18 @@
 #include "Element.h"
 
+#include <memory>
+
 #ifndef UIELEMENT_H
 #define UIELEMENT_H
 
-namespace game
+namespace gameEngine
 {
 
   class UIElement : public Element
   {
 
-  public:
-    // Destruktor - virtual så att den kan överskuggas av subklasser
-    virtual ~UIElement(){};
-
   protected:
+    // Använder sig av superklassens konstruktor då den inte har några ytterligare argument 
     using Element::Element;
   };
 }

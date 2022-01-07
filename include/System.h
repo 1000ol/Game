@@ -9,7 +9,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-namespace game
+namespace gameEngine
 {
 
     class System
@@ -46,6 +46,11 @@ namespace game
             font = fnt;
         }
 
+          Session *getSession()
+        {
+            return session;
+        }
+
         void setSession(Session *s) {
             session = s;
         }
@@ -71,10 +76,7 @@ namespace game
              return music;
          }*/
 
-        Session *getSession()
-        {
-            return session;
-        }
+      
 
     private:
         SDL_Window *win;

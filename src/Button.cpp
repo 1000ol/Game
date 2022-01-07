@@ -3,20 +3,21 @@
 
 using namespace std;
 
-namespace game
+namespace gameEngine
 {
 
-  Button *Button::getInstance(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown)
+  // Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
+  std::shared_ptr<Button> Button::getInstance(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown)
   {
-    return new Button(x, y, w, h, imgSrcUp, imgSrcDown);
-  };
+    return std::make_shared<Button>(x, y, w, h, imgSrcUp, imgSrcDown);
+  }
 
   // Konstruktor
   Button::Button(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown) : UIElement(x, y, w, h), imageSourceUp(imgSrcUp), imageSourceDown(imgSrcDown)
   {
-
     SDL_Surface *surf = IMG_Load(imageSourceUp);
-    texture = SDL_CreateTextureFromSurface(sys.getRen(), surf);
+    setTexture(SDL_CreateTextureFromSurface(sys.getRen(), surf));
+    textureUp = &getTexture();
     SDL_FreeSurface(surf);
     textureDown = IMG_LoadTexture(sys.getRen(), imageSourceDown);
   }
@@ -26,7 +27,7 @@ namespace game
   {
     SDL_Point p = {eve.button.x, eve.button.y};
     if (SDL_PointInRect(&p, &getRect()))
-      isDown = true;
+      setTexture(textureDown);
   }
 
   // Hanterar när musknapp släpps upp
@@ -34,25 +35,14 @@ namespace game
   {
     SDL_Point p = {eve.button.x, eve.button.y};
     if (SDL_PointInRect(&p, &getRect()))
-      perform(this);
-    isDown = false;
-  }
-
-  // Ritar ut objektet
-  void Button::draw() const
-  {
-    if (isDown)
-    {
-      SDL_RenderCopy(sys.getRen(), textureDown, NULL, &getRect());
-    }
-    else
-      SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
+      perform(shared_from_this());
+    setTexture(textureUp);
   }
 
   // Destruktor
   Button::~Button()
   {
-    SDL_DestroyTexture(texture);
+    SDL_DestroyTexture(textureUp);
     SDL_DestroyTexture(textureDown);
   }
 
