@@ -2,6 +2,9 @@
 #include "System.h"
 #include "Player.h"
 #include "Button.h"
+#include "Target.h"
+
+#include <unistd.h>
 
 #include <iostream>
 #include <memory>
@@ -25,10 +28,24 @@ void Session::addElement(shared_ptr<Element> e)
 	allElements.push_back(e);
 }
 
+void Session::addGameElement(shared_ptr<GameElement> gme)
+{
+	allGameElements.push_back(gme);
+	allElements.push_back(gme);
+}
+
+int Session::noOfGameElements() {
+	return allGameElements.size();
+}
+
 void Session::removeElement(shared_ptr<Element> e)
 {
 	allElementsRemoved.push_back(e);
 }
+
+void Session::removeGameElement(shared_ptr<GameElement> gme) {
+	allGameElementsRemoved.push_back(gme);
+} 
 
 void Session::removeAllElements() {
 	for (shared_ptr<Element> e : allElements) 
@@ -57,9 +74,7 @@ void Session::checkUserInput() {
 				if (shared_ptr<Button> b = dynamic_pointer_cast<Button>(e)) {
 					b->mouseUp(event);
 				}
-			}
-				
-					
+			}		
 			break;
 		case SDL_KEYDOWN:
 			for (shared_ptr<Element> e : allElements)
@@ -130,20 +145,34 @@ void Session::handleAddedObjects() {
 
 void Session::handleRemovedObjects() {
 
-// Tar bort raderade objekt
-for (shared_ptr<Element> e : allElementsRemoved)
-{
-	for (vector<shared_ptr<Element>>::iterator i = allElements.begin(); i != allElements.end();)
+	// Tar bort raderade objekt
+	for (shared_ptr<Element> e : allElementsRemoved)
 	{
-		if (*i == e)
+		for (vector<shared_ptr<Element>>::iterator i = allElements.begin(); i != allElements.end();)
 		{
-			i = allElements.erase(i);
-		}
-		else
-			i++;
-	} // Inre for-loop
-}	// Yttre for-loop
-allElementsRemoved.clear();
+			if (*i == e)
+			{		
+				i = allElements.erase(i);
+			}
+			else
+				i++;
+		} // Inre for-loop
+	}	// Yttre for-loop	
+	allElementsRemoved.clear();
+
+	for (shared_ptr<GameElement> gme : allGameElementsRemoved) {
+		for (vector<shared_ptr<GameElement>>::iterator i = allGameElements.begin(); i != allGameElements.end();)
+		{
+			if (*i == gme)
+			{		
+				i = allGameElements.erase(i);
+				std::cout << "One removed, status: " << noOfGameElements() << endl;
+			}
+			else
+				i++;
+		} // Inre for-loop
+	} // Yttre for-loop
+	allGameElementsRemoved.clear();
 }
 
 void Session::drawObjects() {
@@ -168,9 +197,10 @@ void Session::handleDelay() {
 		while (!quit)
 		{
 			checkUserInput();
+			// OBS!! Tagen från main
+			addTarget();
 			updateObjectsState();
 			checkForCollision();
-
 			handleAddedObjects();
 			handleRemovedObjects();
 			drawObjects();

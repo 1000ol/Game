@@ -23,10 +23,10 @@ namespace gameEngine
         if (rect.y >= 600)
         {
             sys.getSession()->removeElement(shared_from_this());
-            counter--;
+            sys.getSession()->removeGameElement(shared_from_this());
         }
         else if (pace % 10 == 0)
-            rect.y+=2;
+            rect.y+=5;
     }
 
 }

@@ -24,4 +24,6 @@ namespace gameEngine
 
 }
 
+extern const int playerMinX, playerMaxX;
+
 #endif
