@@ -53,6 +53,7 @@ int tickCount = 0;
 int scoreValue = 0;
 string score = "Score: " + to_string(scoreValue);
 bool gameRendered = false;
+shared_ptr<Label> scoreLbl;
 
 // Deklarerade funktioner
 void initiateGameScreen();
@@ -101,7 +102,7 @@ public:
 		// Stäng renderaren
 		SDL_DestroyRenderer(sys.getRen());
 
-		// Stäng sessionen och skapa en ny
+		// Stäng sessionen och skapa en ny, alla element raderas
 		sys.getSession()->~Session();
 		sys.setSession(new Session());
 
@@ -149,7 +150,7 @@ void initiateGameScreen()
 	shared_ptr<Button> leftButton = LeftButton::getInstance();
 	shared_ptr<Button> rightButton = RightButton::getInstance();
 	shared_ptr<Button> closeButton = CloseButton::getInstance();
-	shared_ptr<Label> scoreLbl = Label::getInstance(winWidth*0.8, winHeight*0.07, scoreLblWidth, scoreLblHeight, score, TTF_OpenFont((resPath + fontSrc).c_str(), 80), rgb);
+	scoreLbl = Label::getInstance(winWidth*0.85, winHeight*0.07, scoreLblWidth, scoreLblHeight, score, TTF_OpenFont((resPath + fontSrc).c_str(), 80), rgb);
 	shared_ptr<Player> player = Player::getInstance(winWidth*0.3, winHeight*0.65, playerWidth, playerHeight, (resPath + playerSrc).c_str());
 	
 	sys.getSession()->addElement(leftButton);
@@ -204,7 +205,7 @@ void initiate(const char* gameName, int lblWidth, int lblHeight, int pointSize, 
 
 int main()
 {
-	initiate("The Game", 380, 120, 350, 200, 100, "images/startUp.png", "images/startUpClicked.png");
+	initiate("The Void", 380, 120, 350, 200, 100, "images/startUp.png", "images/startUpClicked.png");
 
 	sys.getSession()->run();
 
