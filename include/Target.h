@@ -13,8 +13,13 @@ namespace gameEngine
 
     void tick();
 
+    bool hasCollided();
+
+    void setCollided(bool);
+
   private:
     int pace = 0;
+    bool collided = false;
   };
 }
 extern int counter;

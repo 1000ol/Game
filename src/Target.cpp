@@ -20,13 +20,24 @@ namespace gameEngine
     void Target::tick()
     {
         pace++;
-        if (rect.y >= 600)
+        if (getRect().y >= 600)
         {
             sys.getSession()->removeElement(shared_from_this());
             sys.getSession()->removeGameElement(shared_from_this());
         }
-        else if (pace % 10 == 0)
-            rect.y+=5;
+        else if (pace % 10 == 0) {
+            int newY = getRect().y + 5;
+            setCoordinateY(newY);
+        }
+           
     }
 
+    bool Target::hasCollided(){
+      return collided;
+    }
+
+    void Target::setCollided(bool collision) {
+        collided = collision;
+    }
+    
 }

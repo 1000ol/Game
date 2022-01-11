@@ -1,5 +1,6 @@
 #include "Element.h"
 #include "GameElement.h"
+#include "Label.h"
 
 #include <vector>
 
@@ -64,5 +65,8 @@ extern const int maximumAmount;
 extern void addTarget();
 
 extern const int fps, performance;
+extern int scoreValue;
+extern std::shared_ptr<gameEngine::Label> scoreLbl;
+extern std::string score;
 
 #endif

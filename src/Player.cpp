@@ -20,18 +20,20 @@ namespace gameEngine
 
     void Player::moveRight()
     {
-        if (rect.x > playerMaxX)
-            rect.x = playerMaxX;
+        int x = getRect().x;
+        if (x > playerMaxX)
+            setCoordinateX(playerMaxX);
         else
-            rect.x += 30;
+            setCoordinateX(x+30);
     }
 
     void Player::moveLeft()
     {
-        if (rect.x < playerMinX)
-            rect.x = playerMinX;
+        int x = getRect().x;
+        if (x < playerMinX)
+            setCoordinateX(playerMinX);
         else
-            rect.x -= 30;
+            setCoordinateX(x-30);
     }
 
 }

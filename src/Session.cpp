@@ -3,8 +3,7 @@
 #include "Player.h"
 #include "Button.h"
 #include "Target.h"
-
-#include <unistd.h>
+#include "Element.h"
 
 #include <iostream>
 #include <memory>
@@ -45,6 +44,7 @@ void Session::removeElement(shared_ptr<Element> e)
 
 void Session::removeGameElement(shared_ptr<GameElement> gme) {
 	allGameElementsRemoved.push_back(gme);
+	allElementsRemoved.push_back(gme);
 } 
 
 void Session::removeAllElements() {
@@ -113,26 +113,51 @@ void Session::updateObjectsState() {
 }
 
 void Session::checkForCollision() {
-	/*
+	
 	// Kollisionskontroll för objekt
-	for (Element *e : allElements)
+	
+	for (shared_ptr<Element> e : allElements)
 	{
-		if (Player *p = dynamic_cast<Player *>(e))
+		if (shared_ptr<Player> p = dynamic_pointer_cast<Player>(e))
 		{
-			for (Elements *eOther : allElements)
+			for (shared_ptr<Element> eOther : allElements)
 			{
-				if (Target *t = dynamic_cast<Target *>(eOther))
+				if (shared_ptr<Target> t = dynamic_pointer_cast<Target>(eOther))
 				{
-					if (p->getRect().x == t->getRect().x && p->getRect().y == t->getRect().y)
+					int playerMinX = p->getRect().x; 
+					int playerMaxX = playerMinX + p->getRect().w;
+					int targetMiddleX = t->getRect().x + (t->getRect().w/2);
+
+					int y = p->getRect().y + (p->getRect().h*0.9);
+					int targetY = t->getRect().y + t->getRect().h;
+					int playerY = y % 5 == 0 ? y : y - (y % 5);
+
+					//körs även om target inte har rätt koordinater
+					/*
+					if (playerMinX < targetMiddleX && targetMiddleX < playerMaxX && (targetY + 10) == (playerY - 10)) {
+						SDL_Rect r = t->getRect();
+						int h = r.h;
+						int w = r.w;
+						//int x = r.x;
+						t->setHeight(h-5);
+						t->setWidth(w-5);
+						//t->setCoordinateX(x+2.5);
+					}
+					*/
+					//blir ingen kollision när vi ändrar om rect
+					if (!(t->hasCollided()) && playerMinX < targetMiddleX < playerMaxX && targetY == playerY)
 					{
-						std::cout << "KOLLISION" << std ::endl; // Hantering av kollision görs här
+						t->setCollided(true);
+						std::cout << "KOLLISION:" << "playerMinX: " << playerMinX << ", playerMaxX: " << playerMaxX << ", targetMiddleX: " << targetMiddleX << ", playerY :" << playerY << ", targetY: " << targetY << std ::endl; // Hantering av kollision görs här
+						removeGameElement(t);
+						scoreValue += 1000;
+						scoreLbl->setText("Score: " + to_string(scoreValue));
 					}
 				}
 			}
 		}
 	}
-	*/
-
+	
 }
 
 void Session::handleAddedObjects() {

@@ -26,6 +26,14 @@ namespace gameEngine
     {
       return rect;
     }
+    
+    void setWidth(int);
+
+    void setHeight(int);
+
+    void setCoordinateX(int);
+
+    void setCoordinateY(int);
 
     void setTexture(SDL_Texture *txt) {
       texture = txt;
@@ -42,13 +50,12 @@ namespace gameEngine
 
   protected:
     // Konstruktor som är protected så att subklasser kan använda den
-    Element(int x, int y, int w, int h) : rect{x, y, w, h} {};
-    // Medlem som är protected så att subklasser kan ändra dess koordinater
-    SDL_Rect rect;
+    Element(int x, int y, int w, int h) : rect{x, y, w, h} {};    
 
 
   private:
     SDL_Texture *texture;
+    SDL_Rect rect;
     // Skyddar mot värdesemantik genom att ta bort funktionaliteten för copykonstruktor och tilldelningsoperator
     // Behöver endast ske i en superklass
     // Instantiering via värdesemantik "förbjuds"

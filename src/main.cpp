@@ -167,7 +167,7 @@ void initiateGameScreen()
 void addTarget() {
 	tickCount++;
 
-	if (gameRendered && sys.getSession()->noOfGameElements() < maxAmountTargets && tickCount % 953 == 1)
+	if (gameRendered && sys.getSession()->noOfGameElements() < maxAmountTargets && tickCount % 753 == 1)
 	{
 		// Slumpa x-koordinaten
 		int x = (int)winWidth*0.2 + (rand() % (int)((winWidth*0.65) - (winWidth*0.2 + 1)) - 100);
@@ -192,7 +192,7 @@ void initiate(const char* gameName, int lblWidth, int lblHeight, int pointSize, 
 	refreshRenderer((resPath + startBgSrc).c_str());
 
 	// Se om det är rätt version uppe
-	shared_ptr<Label> versionLbl = Label::getInstance(1100, 670, 75, 25, "Version 1.2", TTF_OpenFont((resPath + fontSrc).c_str(), 100), rgb);
+	shared_ptr<Label> versionLbl = Label::getInstance(1100, 670, 75, 25, "Version 1.0", TTF_OpenFont((resPath + fontSrc).c_str(), 100), rgb);
 	
 	shared_ptr<Label> title = Label::getInstance(winWidth/3, winHeight/7, lblWidth, lblHeight, gameName, TTF_OpenFont((resPath + fontSrc).c_str(), pointSize), rgb);
 	shared_ptr<Button> playButton = PlayButton::getInstance((winWidth*0.4), (winHeight*0.6), playBtnWidth, playBtnHght, (resPath + btnUpSrc).c_str(), (resPath + btnDownSrc).c_str());
