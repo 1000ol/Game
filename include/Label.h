@@ -6,41 +6,38 @@
 #ifndef LABEL_H
 #define LABEL_H
 
-namespace gameEngine
+using namespace gameEngine;
+
+// Subklass till UIElement
+class Label : public UIElement
 {
+public:
+  // Skyddar mot värdesemantik genom att returnera pekare till det instantierade objektet
+  static std::shared_ptr<Label> getInstance(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
 
-  // Subklass till UIElement
-  class Label : public UIElement
+  Label(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
+
+  std::string getText() const
   {
-  public:
-    // Skyddar mot värdesemantik genom att returnera pekare till det instantierade objektet
-    static std::shared_ptr<Label> getInstance(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
+    return text;
+  }
 
-    Label(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
+  void setText(std::string newText);
 
-    std::string getText() const
-    {
-      return text;
-    }
+  TTF_Font *getFont() const
+  {
+    return font;
+  }
 
-    void setText(std::string newText);
+  SDL_Color getColor() const
+  {
+    return color;
+  }
 
-    TTF_Font *getFont() const
-    {
-      return font;
-    }
-
-    SDL_Color getColor() const
-    {
-      return color;
-    }
-
-  private:
-    std::string text;
-    TTF_Font *font;
-    SDL_Color color;
-  };
-
-}
+private:
+  std::string text;
+  TTF_Font *font;
+  SDL_Color color;
+};
 
 #endif

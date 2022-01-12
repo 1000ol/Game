@@ -1,39 +1,45 @@
 #include "Player.h"
 #include "System.h"
-#include <iostream>
 
-namespace gameEngine
-{
+
     // Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
-   std::shared_ptr<Player> Player::getInstance(int x, int y, int w, int h, const char *imgSrc)
+    std::shared_ptr<Player>Player::getInstance(int x, int y, int w, int h, int minX, int maxX, const char *imgSrc)
     {
-        return std::make_shared<Player>(x, y, w, h, imgSrc);
+        return std::make_shared<Player>(x, y, w, h, minX, maxX, imgSrc);
     }
 
     // Konstruktor
-    Player::Player(int x, int y, int w, int h, const char *imgSrc) : GameElement(x, y, w, h, imgSrc)
+    Player::Player(int x, int y, int w, int h, int miniX, int maxiX, const char *imgSrc) : GameElement(x, y, w, h, imgSrc), minX(miniX), maxX(maxiX)
     {
         SDL_Surface *surf = IMG_Load(imageSource);
         setTexture(SDL_CreateTextureFromSurface(sys.getRen(), surf));
         SDL_FreeSurface(surf);
     }
 
-    void Player::moveRight()
-    {
+    void Player::keyDown(const SDL_Event & e) {
+        switch (e.key.keysym.sym) {
+            case SDLK_LEFT:
+                moveLeft();
+                break;
+            case SDLK_RIGHT:
+                moveRight();
+                break;
+        }
+    }
+
+    void Player::moveRight() {
         int x = getRect().x;
-        if (x > playerMaxX)
-            setCoordinateX(playerMaxX);
+        if (x > maxX)
+            setCoordinateX(maxX);
         else
             setCoordinateX(x+30);
     }
 
-    void Player::moveLeft()
-    {
+    void Player::moveLeft() {
         int x = getRect().x;
-        if (x < playerMinX)
-            setCoordinateX(playerMinX);
+        if (x < minX)
+            setCoordinateX(minX);
         else
             setCoordinateX(x-30);
     }
 
-}

@@ -3,8 +3,6 @@
 
 using namespace std;
 
-namespace gameEngine
-{
 
   // Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
   std::shared_ptr<Label> Label::getInstance(int x, int y, int w, int h, string txt, TTF_Font *fnt, SDL_Color clr)
@@ -29,5 +27,3 @@ namespace gameEngine
     setTexture(SDL_CreateTextureFromSurface(sys.getRen(), surf));
     SDL_FreeSurface(surf);
   }
-
-}

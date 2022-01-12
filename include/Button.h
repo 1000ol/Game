@@ -5,31 +5,29 @@
 #ifndef BUTTON_H
 #define BUTTON_H
 
-namespace gameEngine
+using namespace gameEngine;
+
+// Button subklass till UIElement
+class Button : public UIElement, public std::enable_shared_from_this<Button>
 {
-  // Button subklass till UIElement
-  class Button : public UIElement, public std::enable_shared_from_this<Button>
-  {
-  public:
-    static std::shared_ptr <Button> getInstance(int x, int y, int w, int h, const char *imgSrcUp, 
-    const char *imgSrcDown);
+public:
+  static std::shared_ptr <Button> getInstance(int x, int y, int w, int h, const char *imgSrcUp, 
+  const char *imgSrcDown);
 
-    Button(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown);
+  Button(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown);
 
 
-    void mouseDown(const SDL_Event &);
-    void mouseUp(const SDL_Event &);
+  void mouseDown(const SDL_Event &);
+  void mouseUp(const SDL_Event &);
 
-    virtual void perform(std::shared_ptr<Button>){};
+  virtual void perform(std::shared_ptr<Button>){};
 
-    // Destruktor
-    ~Button();
+  // Destruktor
+  ~Button();
 
-  private:
-    SDL_Texture *textureUp, *textureDown;
-    const char *imageSourceUp, *imageSourceDown;
-  };
-
-}
+private:
+  SDL_Texture *textureUp, *textureDown;
+  const char *imageSourceUp, *imageSourceDown;
+};
 
 #endif

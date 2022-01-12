@@ -3,8 +3,6 @@
 
 using namespace std;
 
-namespace gameEngine
-{
 
   // Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
   std::shared_ptr<Button> Button::getInstance(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown)
@@ -45,5 +43,3 @@ namespace gameEngine
     SDL_DestroyTexture(textureUp);
     SDL_DestroyTexture(textureDown);
   }
-
-}

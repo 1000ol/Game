@@ -1,7 +1,6 @@
 #include "Label.h"
-#include "Session.h"
-#include "Button.h"
 #include "System.h"
+#include "Button.h"
 #include "Player.h"
 #include "Target.h"
 #include "Element.h"
@@ -16,7 +15,7 @@ using namespace std;
 using namespace gameEngine;
 
 // Konstanta sökvägar till resurser för spelet
-const string resPath = "resources/";
+const string resPath = "../../resources/";
 const string startBgSrc = "images/space.png";
 const string gameBgSrc = "images/space.png";
 const string fontSrc = "fonts/AllerDisplay.ttf";
@@ -36,7 +35,6 @@ const int winWidth = 1200;
 const int winHeight = 700;
 const int fps = 80;
 const int performance = 1000;
-const int maxAmountTargets = 3;
 const int smallBtnWidth = 50;
 const int smallBtnHeight = 50;
 const int mediumBtnWidth = 75;
@@ -49,13 +47,14 @@ const int playerMinX = winWidth*0.05 + mediumBtnWidth;
 const int playerMaxX = winWidth*0.9 - playerWidth;
 
 // Variabler för spelet
-int tickCount = 0;
 int scoreValue = 0;
 string score = "Score: " + to_string(scoreValue);
 bool gameRendered = false;
 shared_ptr<Label> scoreLbl;
+int tickCount = 0;
 
 // Deklarerade funktioner
+void addTarget();
 void initiateGameScreen();
 void initiate();
 int main();
@@ -130,10 +129,25 @@ static shared_ptr<PlayButton>getInstance(int x, int y, int w, int h, const char*
 void refreshRenderer(const char *imgSrc)
 {
 	sys.setRen(SDL_CreateRenderer(sys.getWin(), -1, 0));
-	SDL_Surface *sur = IMG_Load(imgSrc);
-	sys.setTex(SDL_CreateTextureFromSurface(sys.getRen(), sur));
-	SDL_FreeSurface(sur);
+	sys.setSurf(IMG_Load(imgSrc));
+	sys.setTex(SDL_CreateTextureFromSurface(sys.getRen(), sys.getSurf()));
+	//SDL_FreeSurface(sys.getSurf());
 }
+
+void addTargets() {
+
+		int minX = winWidth * 0.2;
+		int maxX = winWidth * 0.65;
+		for (int i = 0; i < sizeof(targetImages)/sizeof(targetImages[0]); i++) { 
+			// Slumpa x-koordinaten
+
+		int x = rand() % (maxX - minX) + minX;
+	//	int x = (minX + (rand() % maxX - (minX + 1)) - 100);
+
+		shared_ptr<Target> target = Target::getInstance(x, 0, 100, 100, (resPath + targetImages[i]).c_str());
+		sys.getSession()->addGameElement(target);
+		}
+} 
 
 // Initerar spelfönstret efter användaren klickat på PlayButton
 void initiateGameScreen()
@@ -151,56 +165,56 @@ void initiateGameScreen()
 	shared_ptr<Button> rightButton = RightButton::getInstance();
 	shared_ptr<Button> closeButton = CloseButton::getInstance();
 	scoreLbl = Label::getInstance(winWidth*0.85, winHeight*0.07, scoreLblWidth, scoreLblHeight, score, TTF_OpenFont((resPath + fontSrc).c_str(), 80), rgb);
-	shared_ptr<Player> player = Player::getInstance(winWidth*0.3, winHeight*0.65, playerWidth, playerHeight, (resPath + playerSrc).c_str());
+
+	shared_ptr<Player> player = Player::getInstance(winWidth*0.3, winHeight*0.65, playerWidth, playerHeight, playerMinX, playerMaxX, (resPath + playerSrc).c_str());
 	
-	sys.getSession()->addElement(leftButton);
-	sys.getSession()->addElement(rightButton);
-	sys.getSession()->addElement(closeButton);
-	sys.getSession()->addElement(scoreLbl);
-	sys.getSession()->addElement(player);
+	player->setIsUserControlled();
+	cout << (resPath + playerSrc).c_str() << endl;
+	sys.getSession()->addUIElement(leftButton);
+	sys.getSession()->addUIElement(rightButton);
+	sys.getSession()->addUIElement(closeButton);
+	sys.getSession()->addUIElement(scoreLbl);
+	sys.getSession()->addGameElement(player);
+
+	int minX = winWidth * 0.2;
+		int maxX = winWidth * 0.65;
+		for (int i = 0; i < sizeof(targetImages)/sizeof(targetImages[0]); i++) { 
+			// Slumpa x-koordinaten
+
+		int x = rand() % (maxX - minX) + minX;
+		cout << "x " << to_string(x) << endl;
+		// Targets eventuellt olika storlekar
+		shared_ptr<Target> target = Target::getInstance(x, 0, 100, 100, (resPath + targetImages[i]).c_str());
+		sys.getSession()->addGameElement(target);
+		}
 
 	gameRendered = true;
 
-
 }
 
-void addTarget() {
-	tickCount++;
-
-	if (gameRendered && sys.getSession()->noOfGameElements() < maxAmountTargets && tickCount % 753 == 1)
-	{
-		// Slumpa x-koordinaten
-		int x = (int)winWidth*0.2 + (rand() % (int)((winWidth*0.65) - (winWidth*0.2 + 1)) - 100);
-
-		// Slumpa target
-		int i = rand() % 9;
-		// Kontrollutskrift
-		cout << i << " " << resPath + targetImages[i] << endl;
-
-		shared_ptr<Target> target = Target::getInstance(x, 0, 100, 100, (resPath + targetImages[i]).c_str());
-		sys.getSession()->addGameElement(target);
-	}
-} 
 
 // Startskärmen
 void initiate(const char* gameName, int lblWidth, int lblHeight, int pointSize, int playBtnWidth, int playBtnHght, std::string btnUpSrc, std::string btnDownSrc)
 {
 	// Skapar ett fönster
 	sys.setWin(SDL_CreateWindow(gameName, SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, winWidth, winHeight, 0));
+	
+	sys.setTickInterval(performance, fps);
+	//sys.setMusic((resPath + "sounds/glass.wav").c_str());
 
 	// Skapar en renderare
 	refreshRenderer((resPath + startBgSrc).c_str());
 
 	// Se om det är rätt version uppe
-	shared_ptr<Label> versionLbl = Label::getInstance(1100, 670, 75, 25, "Version 1.0", TTF_OpenFont((resPath + fontSrc).c_str(), 100), rgb);
+	shared_ptr<Label> versionLbl = Label::getInstance(1100, 670, 75, 25, "Version 1.893", TTF_OpenFont((resPath + fontSrc).c_str(), 100), rgb);
 	
 	shared_ptr<Label> title = Label::getInstance(winWidth/3, winHeight/7, lblWidth, lblHeight, gameName, TTF_OpenFont((resPath + fontSrc).c_str(), pointSize), rgb);
 	shared_ptr<Button> playButton = PlayButton::getInstance((winWidth*0.4), (winHeight*0.6), playBtnWidth, playBtnHght, (resPath + btnUpSrc).c_str(), (resPath + btnDownSrc).c_str());
 
-	sys.getSession()->addElement(versionLbl);
-	sys.getSession()->addElement(title);
+	sys.getSession()->addUIElement(versionLbl);
+	sys.getSession()->addUIElement(title);
 	//Playbutton msåte vara sist här för att for-loopen i Session.run() ska funka. Går detta att ordna på annat sätt?
-	sys.getSession()->addElement(playButton);
+	sys.getSession()->addUIElement(playButton);
 }
 
 int main()

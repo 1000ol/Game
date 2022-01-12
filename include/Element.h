@@ -3,6 +3,7 @@
 #ifndef ELEMENT_H
 #define ELEMENT_H
 
+
 namespace gameEngine
 {
 
@@ -15,9 +16,10 @@ namespace gameEngine
     // Ritar ut objektet
     void draw() const;
 
-
     virtual void mouseDown(const SDL_Event &){};
     virtual void mouseUp(const SDL_Event &){};
+    virtual void keyDown(const SDL_Event &){};
+    virtual void keyUp(const SDL_Event &){};
 
     // Returnerar rektangelobjektets koordinater för övre vänsterhörn och höjd+bredd
     // Funktion som är const för att den inte ändrar objektet

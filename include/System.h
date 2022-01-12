@@ -9,6 +9,7 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
+
 namespace gameEngine
 {
 
@@ -41,18 +42,49 @@ namespace gameEngine
             return ren;
         }
 
-        void setFont(TTF_Font *fnt)
-        {
-            font = fnt;
-        }
 
-          Session *getSession()
+            Session *getSession()
         {
             return session;
         }
 
-        void setSession(Session *s) {
+        void setSession(Session *s)
+        {
             session = s;
+        }
+
+        void setTex(SDL_Texture *tx)
+        {
+            tex = tx;
+        }
+
+        SDL_Texture* getTex() const
+        {
+            return tex;
+        }
+
+
+        void setSurf(SDL_Surface* s)
+        {
+            surf = s;
+        }
+
+        SDL_Surface *getSurf() const
+        {
+            return surf;
+        }
+
+        void setMusic(const char*);
+
+
+        Mix_Chunk *getMusic() const
+        {
+            return music;
+        }
+
+        void setFont(TTF_Font *fnt)
+        {
+            font = fnt;
         }
 
         // Statisk metod för att hämta font
@@ -61,35 +93,28 @@ namespace gameEngine
             return font;
         }
 
-        void setTex(SDL_Texture *tx)
-        {
-            tex = tx;
+        void setTickInterval(int performance, int fps) {
+        // Bestämmer takten
+        tickInterval = performance / fps;
         }
 
-        SDL_Texture *getTex() const
-        {
-            return tex;
+        int getTickInterval() {
+            return tickInterval;
         }
-
-        /* Mix_Chunk *getMusic() const
-         {
-             return music;
-         }*/
-
-      
 
     private:
         SDL_Window *win;
         SDL_Renderer *ren;
         TTF_Font *font;
         SDL_Texture *tex;
-        // Mix_Chunk *music;
+        SDL_Surface *surf;
+        Mix_Chunk *music;
         Session *session;
+        int tickInterval;
     };
     // Deklareras som extern så att den kan nås av klasser som inkluderar headerfilen
     extern System sys;
 
 }
-extern const std::string resPath;
 
 #endif

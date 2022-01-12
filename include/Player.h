@@ -1,29 +1,25 @@
 #include "GameElement.h"
 
-#include <SDL2/SDL.h>
-#include <SDL2_image/SDL_image.h>
-
 #ifndef PLAYER_H
 #define PLAYER_H
 
-namespace gameEngine
+using namespace gameEngine;
+
+class Player : public gameEngine::GameElement
 {
-    class Player : public GameElement
-    {
-    public:
-        static std::shared_ptr<Player>getInstance(int x, int y, int w, int h, const char *imgSrc);
+public:
+    static std::shared_ptr<Player>getInstance(int x, int y, int w, int h, int miniX, int maxiX, const char *imgSrc);
 
-        Player(int x, int y, int w, int h, const char *imgSrc);
+    Player(int x, int y, int w, int h, int minX, int maxX, const char *imgSrc);
 
-        void tick(){};
+    void keyDown(const SDL_Event &);
 
-        void moveRight();
-        void moveLeft();
+    void moveRight();
+    void moveLeft();
 
-    };
+private: 
+    int minX, maxX;
 
-}
-
-extern const int playerMinX, playerMaxX;
+};
 
 #endif
