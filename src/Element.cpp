@@ -1,29 +1,18 @@
 #include "Element.h"
 #include "System.h"
+#include <iostream>
 
 namespace gameEngine
 {
 
-  void Element::draw() const {
+  void Element::draw() const
+  {
     SDL_RenderCopy(sys.getRen(), texture, NULL, &getRect());
   }
 
-  void Element::setWidth(int width) {
-    rect.w = width;
-  }
-
-  void Element::setHeight(int height) {
-    rect.h = height;
-  }
-
-  void Element::setCoordinateX(int newX) {
-    rect.x = newX;
-  }
-  void Element::setCoordinateY(int newY) {
-    rect.y = newY;
-  }
-
-  Element::~Element() {
+   Element::~Element()
+  {
+    std::cout << "Element::~Element()" << std::endl;
     SDL_DestroyTexture(texture);
   }
 }

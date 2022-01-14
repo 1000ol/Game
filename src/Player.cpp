@@ -1,45 +1,60 @@
-#include "Player.h"
+/*#include "Player.h"
 #include "System.h"
 
+#include <iostream>
 
-    // Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
-    std::shared_ptr<Player>Player::getInstance(int x, int y, int w, int h, int minX, int maxX, const char *imgSrc)
+// Säkerställer att objekt endast kan instantieras via privat konstruktor och hämtas som pekarobjekt
+std::shared_ptr<Player> Player::getInstance(int x, int y, int w, int h, const char *imgSrc)
+{
+    return std::make_shared<Player>(x, y, w, h, imgSrc);
+}
+
+// Konstruktor
+Player::Player(int x, int y, int w, int h, const char *imgSrc) : GameElement(x, y, w, h, imgSrc)
+{
+    setIsUserControlled();
+    SDL_Surface *surf = IMG_Load(getImageSource());
+    setTexture(SDL_CreateTextureFromSurface(sys.getRen(), surf));
+    SDL_FreeSurface(surf);
+}
+
+void Player::tick()
+{
+}
+
+void Player::keyDown(const SDL_Event &e)
+{
+    switch (e.key.keysym.sym)
     {
-        return std::make_shared<Player>(x, y, w, h, minX, maxX, imgSrc);
+    case SDLK_LEFT:
+        moveLeft();
+        break;
+    case SDLK_RIGHT:
+        moveRight();
+        break;
     }
+}
 
-    // Konstruktor
-    Player::Player(int x, int y, int w, int h, int miniX, int maxiX, const char *imgSrc) : GameElement(x, y, w, h, imgSrc), minX(miniX), maxX(maxiX)
-    {
-        SDL_Surface *surf = IMG_Load(imageSource);
-        setTexture(SDL_CreateTextureFromSurface(sys.getRen(), surf));
-        SDL_FreeSurface(surf);
-    }
+void Player::moveRight()
+{
+    int x = getRect().x;
+    if (x > playerMaxX)
+        setCoordinateX(playerMaxX);
+    else
+        setCoordinateX(x + 30);
+}
 
-    void Player::keyDown(const SDL_Event & e) {
-        switch (e.key.keysym.sym) {
-            case SDLK_LEFT:
-                moveLeft();
-                break;
-            case SDLK_RIGHT:
-                moveRight();
-                break;
-        }
-    }
+void Player::moveLeft()
+{
+    int x = getRect().x;
+    if (x < playerMinX)
+        setCoordinateX(playerMinX);
+    else
+        setCoordinateX(x - 30);
+}
 
-    void Player::moveRight() {
-        int x = getRect().x;
-        if (x > maxX)
-            setCoordinateX(maxX);
-        else
-            setCoordinateX(x+30);
-    }
-
-    void Player::moveLeft() {
-        int x = getRect().x;
-        if (x < minX)
-            setCoordinateX(minX);
-        else
-            setCoordinateX(x-30);
-    }
-
+Player::~Player()
+{
+    std::cout << "Player::~Player()" << std::endl;
+}
+*/

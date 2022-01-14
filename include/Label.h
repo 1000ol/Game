@@ -17,6 +17,8 @@ public:
 
   Label(int x, int y, int w, int h, std::string txt, TTF_Font *fnt, SDL_Color clr);
 
+  void tick(){};
+
   std::string getText() const
   {
     return text;
@@ -33,6 +35,8 @@ public:
   {
     return color;
   }
+
+  ~Label();
 
 private:
   std::string text;

@@ -9,7 +9,6 @@
 #ifndef SYSTEM_H
 #define SYSTEM_H
 
-
 namespace gameEngine
 {
 
@@ -25,6 +24,7 @@ namespace gameEngine
         void setWin(SDL_Window *wn)
         {
             win = wn;
+            SDL_SetWindowResizable(win, SDL_TRUE);
         }
 
         SDL_Window *getWin()
@@ -36,14 +36,13 @@ namespace gameEngine
         {
             ren = rend;
         }
-        // Statisk metod för att hämta renderare
+
         SDL_Renderer *getRen() const
         {
             return ren;
         }
 
-
-            Session *getSession()
+        Session *getSession()
         {
             return session;
         }
@@ -58,13 +57,12 @@ namespace gameEngine
             tex = tx;
         }
 
-        SDL_Texture* getTex() const
+        SDL_Texture *getTex() const
         {
             return tex;
         }
 
-
-        void setSurf(SDL_Surface* s)
+        void setSurf(SDL_Surface *s)
         {
             surf = s;
         }
@@ -74,8 +72,7 @@ namespace gameEngine
             return surf;
         }
 
-        void setMusic(const char*);
-
+        void setMusic(const char *);
 
         Mix_Chunk *getMusic() const
         {
@@ -87,18 +84,19 @@ namespace gameEngine
             font = fnt;
         }
 
-        // Statisk metod för att hämta font
         TTF_Font *getFont() const
         {
             return font;
         }
 
-        void setTickInterval(int performance, int fps) {
         // Bestämmer takten
-        tickInterval = performance / fps;
+        void setTickInterval(int performance, int fps)
+        {
+            tickInterval = performance / fps;
         }
 
-        int getTickInterval() {
+        int getTickInterval()
+        {
             return tickInterval;
         }
 
