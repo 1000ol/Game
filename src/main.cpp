@@ -40,14 +40,14 @@ const int mediumBtnWidth = 75;
 const int mediumBtnHeight = 75;
 const int scoreLblWidth = 85;
 const int scoreLblHeight = 35;
-const int gameOverLblWidth = 130;
-const int gameOverLblHeight = 50;
+const int gameOverLblWidth = 380;
+const int gameOverLblHeight = 150;
 const int playerWidth = 200;
 const int playerHeight = 200;
 const int playerMinX = winWidth * 0.05 + mediumBtnWidth;
 const int playerMaxX = winWidth * 0.9 - playerWidth;
-const int targetMinX = winWidth * 0.2;
-const int targetMaxX = winWidth * 0.65;
+const int targetMinX = winWidth * 0.15;
+const int targetMaxX = winWidth * 0.85;
 int targetX = targetMinX + (std::rand() % (targetMaxX - targetMinX + 1));
 int tickCount = 0;
 int targetImgIndex = (std::rand() % (sizeof(targetImages) / sizeof(targetImages[0])));
@@ -60,7 +60,7 @@ shared_ptr<Player> player;
 void initiateGameScreen();
 int main();
 
-class Target : public gameEngine::GameElement, public enable_shared_from_this<Target>
+class Target : public GameElement, public enable_shared_from_this<Target>
 {
 public:
 	static shared_ptr<Target> getInstance()
@@ -81,10 +81,11 @@ public:
 	{
 		pace++;
 		if (pace % 5 == 0)
-			setCoordinateY((getRect().y + 8));
+			setCoordinateY((getRect().y + 2));
 		if (hasCollided())
-		{
+		{	
 			SDL_Rect r = getRect();
+			cout << "Target x: " << r.x << ", Target y: " << r.y << endl;
 			setWidth(r.w - 3);
 			setHeight(r.h - 3);
 			setCoordinateX(r.x + 1.5);
@@ -97,14 +98,15 @@ public:
 
 	void collide()
 	{
-		sys.getSession()->removeElement(shared_from_this());
+		shared_ptr<GameElement> t = dynamic_pointer_cast<GameElement>(shared_from_this());
+		sys.getSession()->removeElement(t);
 	}
 
 	~Target()
 	{
 		if (!hasCollided())
 		{
-			shared_ptr<Label> gameOverLbl = Label::getInstance((winWidth / 2), (winHeight / 2), gameOverLblWidth, gameOverLblHeight, "Game Over", TTF_OpenFont((resPath + fontSrc).c_str(), 80), rgb);
+			shared_ptr<Label> gameOverLbl = Label::getInstance((winWidth / 3), (winHeight / 4), gameOverLblWidth, gameOverLblHeight, "Game Over", TTF_OpenFont((resPath + fontSrc).c_str(), 80), rgb);
 			sys.getSession()->addElement(gameOverLbl);
 		}
 		std::cout << "Target::~Target()" << std::endl;
@@ -114,7 +116,7 @@ private:
 	int pace = 0;
 };
 
-class Player : public gameEngine::GameElement
+class Player : public GameElement
 {
 public:
 	static std::shared_ptr<Player> getInstance(int x, int y, int w, int h, const char *imgSrc)
@@ -139,29 +141,33 @@ public:
 			if (x < playerMinX)
 				setCoordinateX(playerMinX);
 			else
-				setCoordinateX(x - 30);
+				setCoordinateX(x - 40);
 			break;
 		case SDLK_RIGHT:
 			if (x > playerMaxX)
 				setCoordinateX(playerMaxX);
 			else
-				setCoordinateX(x + 30);
+				setCoordinateX(x + 40);
 			break;
 		}
 	}
 	void tick()
 	{
-		if (hasCollided()) //&& countedCollisions != getCollisions())
+		if (hasCollided() && countedCollisions != getCollisions()) {
+			SDL_Rect r = getRect();
+			cout << "Player x: " << r.x << ", Player y: " << r.y << endl;
 			collide();
+		}
+			
 	}
 
 	void collide()
 	{
 		score = getCollisions() * 100;
-		// countedCollisions = getCollisions();
+		countedCollisions = getCollisions();
 		targetX = targetMinX + (std::rand() % (targetMaxX - targetMinX + 1));
 		targetImgIndex = (std::rand() % (sizeof(targetImages) / sizeof(targetImages[0])));
-		shared_ptr<Element> newTarget = Target::getInstance();
+		shared_ptr<GameElement> newTarget = Target::getInstance();
 		sys.getSession()->addElement(newTarget);
 	}
 
@@ -177,7 +183,7 @@ public:
 
 private:
 	int score = 0;
-	//	int countedCollisions = 0;
+	int countedCollisions = 0;
 };
 
 class LeftButton : public Button
@@ -303,7 +309,7 @@ void initiateGameScreen()
 	shared_ptr<Button> closeButton = CloseButton::getInstance();
 	shared_ptr<Label> scoreLbl = ScoreLabel::getInstance(winWidth * 0.85, winHeight * 0.07, scoreLblWidth, scoreLblHeight, TTF_OpenFont((resPath + fontSrc).c_str(), 80), rgb);
 	player = Player::getInstance(winWidth * 0.3, winHeight * 0.65, playerWidth, playerHeight, (resPath + playerSrc).c_str());
-	shared_ptr<Target> target = Target::getInstance();
+	shared_ptr<GameElement> target = Target::getInstance();
 
 	sys.getSession()->addElement(leftButton);
 	sys.getSession()->addElement(rightButton);
@@ -331,9 +337,9 @@ void initiate(const char *gameName, int lblWidth, int lblHeight, int pointSize, 
 	shared_ptr<Label> versionLbl = Label::getInstance(1100, 670, 75, 25, "Version 1.893", TTF_OpenFont((resPath + fontSrc).c_str(), 100), rgb);
 
 	shared_ptr<Label> title = Label::getInstance(winWidth / 3, winHeight / 7, lblWidth, lblHeight, gameName, TTF_OpenFont((resPath + fontSrc).c_str(), pointSize), rgb);
-	shared_ptr<Label> instruction = Label::getInstance(winWidth * 0.1, winHeight / 6, 1200, lblHeight, "A black hole gets them all! Are you up for the challenge?", TTF_OpenFont((resPath + fontSrc).c_str(), 100), rgb);
+	shared_ptr<Label> instruction = Label::getInstance(winWidth * 0.18, winHeight / 3, 800, lblHeight/3, "A black hole gets them all! Are you up for the challenge?", TTF_OpenFont((resPath + fontSrc).c_str(), 100), rgb);
 
-	shared_ptr<Button> playButton = PlayButton::getInstance((winWidth * 0.4), (winHeight * 0.6), playBtnWidth, playBtnHght, (resPath + btnUpSrc).c_str(), (resPath + btnDownSrc).c_str());
+	shared_ptr<Button> playButton = PlayButton::getInstance((winWidth * 0.42), (winHeight * 0.6), playBtnWidth, playBtnHght, (resPath + btnUpSrc).c_str(), (resPath + btnDownSrc).c_str());
 
 	sys.getSession()->addElement(versionLbl);
 	sys.getSession()->addElement(title);
