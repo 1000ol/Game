@@ -16,7 +16,6 @@ public:
 
   Button(int x, int y, int w, int h, const char *imgSrcUp, const char *imgSrcDown);
 
-
   void mouseDown(const SDL_Event &);
   void mouseUp(const SDL_Event &);
 

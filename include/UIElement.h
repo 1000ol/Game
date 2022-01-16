@@ -12,7 +12,7 @@ namespace gameEngine
   {
 
   public:
-    ~UIElement();
+    ~UIElement(){};
 
   protected:
     // Använder sig av superklassens konstruktor då den inte har några ytterligare argument

@@ -41,7 +41,6 @@ void Button::mouseUp(const SDL_Event &eve)
 // Destruktor
 Button::~Button()
 {
-  std::cout << "Button::~Button()" << std::endl;
   SDL_DestroyTexture(textureUp);
   SDL_DestroyTexture(textureDown);
 }

@@ -19,9 +19,4 @@ namespace gameEngine
         SDL_FreeSurface(surf);
     }
 
-    GameElement::~GameElement()
-    {
-        std::cout << "GameElement::~GameElement()" << std::endl;
-    }
-
 }

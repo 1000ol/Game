@@ -12,7 +12,6 @@ namespace gameEngine
 
    Element::~Element()
   {
-    std::cout << "Element::~Element()" << std::endl;
     SDL_DestroyTexture(texture);
   }
 }

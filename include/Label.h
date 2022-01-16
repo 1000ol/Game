@@ -36,7 +36,7 @@ public:
     return color;
   }
 
-  ~Label();
+  ~Label(){};
 
 private:
   std::string text;

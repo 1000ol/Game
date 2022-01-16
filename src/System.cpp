@@ -1,6 +1,5 @@
 #include "System.h"
 
-#include <iostream>
 using namespace std;
 
 namespace gameEngine
@@ -12,25 +11,21 @@ namespace gameEngine
         SDL_Init(SDL_INIT_EVERYTHING);
         TTF_Init();
 
+        // Initierar musiken
         Mix_OpenAudio(20050, AUDIO_S16SYS, 2, 4096);
+
+        // Skapar nytt Session-objekt
         session = new Session();
+    }
+
+    void System::setFont(const char* fontSrc, int pointSize) {
+        font = TTF_OpenFont(fontSrc, pointSize);
     }
 
     void System::setMusic(const char *musicSrc)
     {
         music = Mix_LoadWAV(musicSrc);
         Mix_PlayChannel(-1, music, -1);
-
-        //   if(!music) {
-        //     printf("Mix_LoadWAV: %s\n", Mix_GetError());
-        // handle error
-        // }
-        Mix_PlayChannel(-1, music, -1);
-        //  if(Mix_PlayChannel(-1, music, 0)==-1) {
-        //     printf("Mix_PlayChannel: %s\n",Mix_GetError());
-        // may be critical error, or maybe just no channels were free.
-        // you could allocated another channel in that
-        // }
     }
 
     // Destruktor - städar bort vid stängning av programmet
@@ -38,7 +33,6 @@ namespace gameEngine
     {
         // Stänger av ljud
         Mix_Quit();
-        // Göras i omvänd ordning till hur vi initierat
         // Stänger av font;
         TTF_CloseFont(font);
         TTF_Quit();

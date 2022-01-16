@@ -28,8 +28,3 @@ void Label::setText(string newText)
   setTexture(SDL_CreateTextureFromSurface(sys.getRen(), surf));
   SDL_FreeSurface(surf);
 }
-
-Label::~Label()
-{
-  std::cout << "Label::~Label() " << std ::endl;
-}

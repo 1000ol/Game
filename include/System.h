@@ -16,15 +16,13 @@ namespace gameEngine
     {
 
     public:
-        // Default-konstruktor
+        // Konstruktor
         System();
-        // Destruktor
-        ~System();
 
+        // Set- och getfunktioner 
         void setWin(SDL_Window *wn)
         {
             win = wn;
-            SDL_SetWindowResizable(win, SDL_TRUE);
         }
 
         SDL_Window *getWin()
@@ -72,21 +70,18 @@ namespace gameEngine
             return surf;
         }
 
+        void setFont(const char*, int);
+
+        TTF_Font *getFont() const
+        {
+            return font;
+        }
+
         void setMusic(const char *);
 
         Mix_Chunk *getMusic() const
         {
             return music;
-        }
-
-        void setFont(TTF_Font *fnt)
-        {
-            font = fnt;
-        }
-
-        TTF_Font *getFont() const
-        {
-            return font;
         }
 
         // Bestämmer takten
@@ -100,6 +95,9 @@ namespace gameEngine
             return tickInterval;
         }
 
+         // Destruktor
+        ~System();
+
     private:
         SDL_Window *win;
         SDL_Renderer *ren;
@@ -110,6 +108,7 @@ namespace gameEngine
         Session *session;
         int tickInterval;
     };
+
     // Deklareras som extern så att den kan nås av klasser som inkluderar headerfilen
     extern System sys;
 
